@@ -21,3 +21,7 @@
 // .then(activeUsers =>{
 //     document.getElementById("userNo").innerText = activeUsers;
 // }).catch(error => console.error(error));
+
+document.getElementById("btn_addProduct").addEventListener("click", function(){
+    window.location.href = "add_product.html"
+});
