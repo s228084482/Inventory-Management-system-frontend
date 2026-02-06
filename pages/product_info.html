@@ -11,54 +11,60 @@
 <body>
     <div id="addingProductSectionMain">
         <div id="subAdding">
-            <h1>Add products</h1>
-            <form action="" method="get">
+            <h1>Add products information</h1>
+            <form action="products.html" id="formProductInfo" method="get">
                 <div id="hBox">
-                    <div id="lbl-Box">
-                        <label for="productName">Name:</label>
+                    <div id="lbl-Box2">
+                        <label for="supplierName">Supplier Name:</label>
                     </div>
-                    <div id="txt-box">
-                        <input type="text" id="txtInput" name="productName" required>
+                    <div id="txt-box2">
+                        <input type="text" class="txtInput2" name="supplierName" required>
                     </div>
                 </div>
-
                 
                 <div id="hBox">
-                    <div id="lbl-Box">
-                        <label for="price">Price:</label>
+                    <div id="lbl-Box2">
+                        <label for="rate">Rating:</label>
                     </div>
-                    <div id="txt-box">
-                        <input type="text" id="txtInput" name="price" required>
-                    </div>
-                </div>
-
-                <div id="hBox">
-                    <div id="lbl-Box">
-                        <label for="quantity">Quantity:</label>
-                    </div>
-                    <div id="txt-box">
-                        <input type="number" id="txtInput" name="quantity" required>
+                    <div id="txt-box2">
+                        <input type="number" class="txtInput2" min="1" max="5" step="1" name="rate" required>
                     </div>
                 </div>
 
                 <div id="hBox">
-                    <div id="lbl-Box">
-                        <label for="description">Description:</label>
+                    <div id="lbl-Box2">
+                        <label for="move">Movement Type:</label>
                     </div>
-                    <div id="txt-box">
-                        <input type="text" id="txtInput" name="description" required>
+                    <div id="txt-box2">
+                        <select class="txtInputT" id="selectorMovement" name="move" required>
+                            <option value="all">In</option>
+                            <option value="status">Out</option>
+                        </select>
                     </div>
                 </div>
 
-                <!-- <div id="hBox-button">
-                    <button type="button" id="btn_addProduct" class="btn_addPro">Add product</button>
-                </div> -->
+                <div id="hBox">
+                    <div id="lbl-Box2">
+                        <label for="category">Select Categpry:</label>
+                    </div>
+                    <div id="txt-box2">
+                       <select class="txtInputT" id="selectorCategory" name="category" required>
+                            <option value="all"></option>
+                            
+                        </select>
+                    </div>
+                </div>
+
+                <div id="hBox-button">
+                    <button form="formProductInfo" type="submit" id="btn_submitProductInfo" class="btn_addPro">Submit</button>
+                </div>
 
             </form>
 
         </div>
     </div>
-    <script src="Scipts/Scipts/product.js"></script>
+    
+    <script src="Scripts/product.js"></script>
 </body>
 
 </html>

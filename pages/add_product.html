@@ -12,23 +12,23 @@
     <div id="addingProductSectionMain">
         <div id="subAdding">
             <h1>Add products</h1>
-            <form action="" method="get">
+            <form action="product_info.html" method="get" id="addProductForm">
                 <div id="hBox">
                     <div id="lbl-Box">
                         <label for="productName">Name:</label>
                     </div>
                     <div id="txt-box">
-                        <input type="text" id="txtInput" name="productName" required>
+                        <input type="text" class="txtInput" name="productName" required>
                     </div>
                 </div>
 
-                
+
                 <div id="hBox">
                     <div id="lbl-Box">
                         <label for="price">Price:</label>
                     </div>
                     <div id="txt-box">
-                        <input type="text" id="txtInput" name="price" required>
+                        <input type="text" class="txtInput" name="price" required>
                     </div>
                 </div>
 
@@ -37,7 +37,7 @@
                         <label for="quantity">Quantity:</label>
                     </div>
                     <div id="txt-box">
-                        <input type="number" id="txtInput" name="quantity" required>
+                        <input type="number" class="txtInput" name="quantity" required>
                     </div>
                 </div>
 
@@ -46,19 +46,18 @@
                         <label for="description">Description:</label>
                     </div>
                     <div id="txt-box">
-                        <input type="text" id="txtInput" name="description" required>
+                        <input type="text" class="txtInput" name="description" required>
                     </div>
-                </div>
-
-                <div id="hBox-button">
-                    <button type="button" id="btn_addProduct" class="btn_addPro">Add product</button>
                 </div>
 
             </form>
 
+            <div id="hBox-button">
+                <button form="addProductForm" type="submit" id="btn_submitProduct" class="btn_addPro">Add Product</button>
+            </div>
+
         </div>
     </div>
-    <script src="Scipts/Scipts/product.js"></script>
 </body>
-
+<script src="Scripts/product.js"></script>
 </html>
