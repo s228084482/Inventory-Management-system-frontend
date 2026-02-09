@@ -299,12 +299,13 @@ p {
 th,
 td {
     border: 1px solid #ccc;
+    height: 20px;
 }
 
-tr:nth-child(even) {
+/* tr:nth-child(even) {
     background-color: #f4f4f4;
 
-}
+} */
 
 #addingProductSectionMain {
     width: 100%;
@@ -383,12 +384,10 @@ tr:nth-child(even) {
     margin-top: 50px;
 }
 
-#selectorMovement{
+#selectorMovement {}
 
-}
-#selectorCategory{
+#selectorCategory {}
 
-}
 #lbl-Box2 {
     margin-right: 10px;
     height: 50px;
@@ -401,6 +400,7 @@ tr:nth-child(even) {
     display: flex;
     margin-left: 20px;
 }
+
 .txtInput2 {
     height: 25px;
     width: 300px;
@@ -410,7 +410,8 @@ tr:nth-child(even) {
     font-size: medium;
     padding: 6px;
 }
-.txtInputT{
+
+.txtInputT {
     height: 35px;
     width: 313px;
     margin-left: 14px;
@@ -418,4 +419,54 @@ tr:nth-child(even) {
     border: 0px;
     font-size: medium;
     padding: 6px;
+}
+
+#btn_searchProduct {
+    height: 30px;
+    cursor: pointer;
+    background-color: #7EEF14;
+    color: white;
+    font-weight: bold;
+}
+
+/* Category styling==================================================================================== */
+.btn_styling {
+    height: 30px;
+    cursor: pointer;
+    background-color: #7EEF14;
+    color: white;
+    font-weight: bold;
+}
+.txt_input_categoryStyling{
+    height: 25px;
+}
+#categoryTable{
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+.table-container {
+    max-height: 450px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+}
+
+#categoryTable thead th {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    color: black;
+    z-index: 2;
+}
+
+#categoryTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#categoryTable th,
+#categoryTable td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    height: 20px;
 }

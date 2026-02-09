@@ -89,10 +89,36 @@
 
         </article>
         <article id="content">
+            <div id="prd-main-div">
 
+                <div id="prd-up-div">
+                    <div id="leftProduct-div">
+                        <input class="txt_input_categoryStyling" id="txt_categoryName" type="text" placeholder="Enter Category name...">
+                        <button class="btn_styling" id="btn_addCategory">Add Category</button>
+                    </div>
+                    <div id="rightProduct-div">
+                        <input class="txt_input_categoryStyling" id="txt_searchCategory" type="search" placeholder="Search by category name"><button class="btn_styling" id="btn_searchCategory">Search</button>
+                    </div>
+                </div>
+
+                <div id="prd-down-div" class="table-container">
+                    <table id="categoryTable">
+                        <thead>
+                            <tr>
+                                <th>Category Name</th>
+                                <th>Product assigned</th>
+                                <th>Perscentage</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                </div>
+            </div>
         </article>
     </section>
-    <script src="Scripts/frontEndScript.js"></script>
+    <script src="Scripts/category.js"></script>
 </body>
 
 </html>

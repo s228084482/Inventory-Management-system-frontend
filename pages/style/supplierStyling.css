@@ -1,0 +1,12 @@
+.supplierMainContent{
+    display: flex;
+    flex-direction: row;
+    padding: 2px;
+    border: 2px solid red;
+    height: inherit;
+}
+.supplier-left-content{
+}
+.supplier-right-content{
+
+}
