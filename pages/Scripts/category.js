@@ -1,99 +1,18 @@
 
 
-const categories = [
-    {
-        id: 1,
-        name: "Electronics",
-        productsAssigned: 12,
-        percentage: "40%"
-    },
-    {
-        id: 2,
-        name: "Furniture",
-        productsAssigned: 5,
-        percentage: "18%"
-    },
-    {
-        id: 3,
-        name: "Groceries",
-        productsAssigned: 15,
-        percentage: "42%"
-    },
-    {
-        id: 1,
-        name: "Electronics",
-        productsAssigned: 12,
-        percentage: "40%"
-    },
-    {
-        id: 2,
-        name: "Furniture",
-        productsAssigned: 5,
-        percentage: "18%"
-    },
-    {
-        id: 3,
-        name: "Groceries",
-        productsAssigned: 15,
-        percentage: "42%"
-    },
-    {
-        id: 1,
-        name: "Electronics",
-        productsAssigned: 12,
-        percentage: "40%"
-    },
-    {
-        id: 2,
-        name: "Furniture",
-        productsAssigned: 5,
-        percentage: "18%"
-    },
-    {
-        id: 3,
-        name: "Groceries",
-        productsAssigned: 15,
-        percentage: "42%"
-    },
-    {
-        id: 1,
-        name: "Electronics",
-        productsAssigned: 12,
-        percentage: "40%"
-    },
-    {
-        id: 2,
-        name: "Furniture",
-        productsAssigned: 5,
-        percentage: "18%"
-    },
-    {
-        id: 3,
-        name: "Groceries",
-        productsAssigned: 15,
-        percentage: "42%"
-    },
-    {
-        id: 1,
-        name: "Electronics",
-        productsAssigned: 12,
-        percentage: "40%"
-    },
-    {
-        id: 2,
-        name: "Furniture",
-        productsAssigned: 5,
-        percentage: "18%"
-    },
-    {
-        id: 3,
-        name: "Groceries",
-        productsAssigned: 15,
-        percentage: "42%"
-    }
-];
-
 const tableBody = document.querySelector("#categoryTable tbody");
+const categories = null;
+
+async function loadCategoryData(){
+    try{
+        const response = await fetch('http://localhost:8080//api/category/getAllCategoryData');
+        categories = await response.json();
+        renderCategories(categories);
+    }catch(error){
+        console.error(error);
+    }
+}
+loadCategoryData();
 
 function renderCategories(data) {
     tableBody.innerHTML = "";
@@ -103,7 +22,7 @@ function renderCategories(data) {
 
         row.innerHTML = `
             <td>${category.name}</td>
-            <td>${category.productsAssigned}</td>
+            <td>${category.productAssigned}</td>
             <td>${category.percentage}</td>
             <td>
                 <button class="btn_edit" onclick="editCategory(${category.id})">
@@ -118,30 +37,49 @@ function renderCategories(data) {
         tableBody.appendChild(row);
     });
 }
-renderCategories(categories);
 
-function deleteCategory(id) {
+
+async function deleteCategory(id) {
     const confirmDelete = confirm("Are you sure you want to delete this category?");
 
     if (!confirmDelete) return;
     else {
+        await fetch('http://localhost:8080//api/category/${id}',{
+            method: "DELETE"
+        });
+
         const index = categories.find(c => c.id === id);
         categories.slice(index, 1);
 
         renderCategories(categories);
+        alert("Cetegory deleted!");
     }
 }
 
-function editCategory(id){
+async function editCategory(id){
 
     const confirmEdit = confirm("Are you sure to edit this category?")
 
     if(!confirmEdit)return;
 
-    // const index = categories.findIndex(c => c.id === id);
-    // categories.splice(index, 1);
+    // not done here i need to put in elementById==================================
+    const category = {
+        categoryName: document.getElementById("").value
+    }
 
-    // renderCategories(categories);
+    await fetch('http://localhost:8080//api/category/${id}', {
+        method: "PUT",
+        headers:{
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(category)
+    });
+
+    const index = categories.findIndex(c => c.id === id);
+    categories.splice(index, 1);
+
+    renderCategories(categories);
+    alert("Product updated!");
 }
 
 const searchValue = document.getElementById("txt_searchCategory").ariaValueMax.toLocaleLowerCase();

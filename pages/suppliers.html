@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Dashboard</title>
+    <title>Suppliers</title>
     <link rel="stylesheet" href="style/stylesheet.css" />
     <link rel="stylesheet" href="style/supplierStyling.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -92,10 +92,68 @@
         <article id="content">
             <div class="supplierMainContent">
                 <div class="supplier-left-content">
+                    <h1>Add Supplier</h1>
+                    <form action="" id="Add-supplier-form">
+                        <div id="hBox">
+                            <div id="lbl-Box">
+                                <label for="supplierName">Name:</label>
+                            </div>
+                            <div id="txt-box">
+                                <input type="text" class="txtInput" name="supplierName" required>
+                            </div>
+                        </div>
+
+                        <div id="hBox">
+                            <div id="lbl-Box">
+                                <label for="supplierPhoneNO">Phone:</label>
+                            </div>
+                            <div id="txt-box">
+                                <input type="text" class="txtInput" name="supplierPhoneNO" required>
+                            </div>
+                        </div>
+
+                        <div id="hBox">
+                            <div id="lbl-Box">
+                                <label for="supllierEmail">Email:</label>
+                            </div>
+                            <div id="txt-box">
+                                <input type="text" class="txtInput" name="supllierEmail" required>
+                            </div>
+                        </div>
+
+                        <div class="button_container">
+                            <button type="submit" id="btn_add_supplier">Add Supplier</button>
+                        </div>
+                    </form>
 
                 </div>
                 <div class="supplier-right-content">
+                    <div id="prd-main-div">
 
+                        <div id="prd-up-div">
+                            <div id="rightProduct-div">
+                                <input class="txt_input_categoryStyling" id="txt_searchSupplier" type="search"
+                                    placeholder="Search by category name"><button class="btn_styling"
+                                    id="btn_searchSupplier">Search</button>
+                            </div>
+                        </div>
+
+                        <div id="prd-down-div" class="table-container">
+                            <table id="supplierTable" class="categoryTable">
+                                <thead>
+                                    <tr>
+                                        <th>Supplier Name</th>
+                                        <th>Supplier Email</th>
+                                        <th>Supplier Number</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </article>

@@ -440,7 +440,7 @@ td {
 .txt_input_categoryStyling{
     height: 25px;
 }
-#categoryTable{
+.categoryTable{
     width: 100%;
     border-collapse: collapse;
     font-family: Arial, sans-serif;
@@ -451,7 +451,7 @@ td {
     border: 1px solid #ddd;
 }
 
-#categoryTable thead th {
+.categoryTable thead th {
     position: sticky;
     top: 0;
     background-color: #fff;
@@ -459,13 +459,13 @@ td {
     z-index: 2;
 }
 
-#categoryTable {
+.categoryTable {
     width: 100%;
     border-collapse: collapse;
 }
 
-#categoryTable th,
-#categoryTable td {
+.categoryTable th,
+.categoryTable td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
     height: 20px;
