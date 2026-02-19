@@ -264,13 +264,16 @@ p {
 }
 
 #btn_addProduct {
+   background-color: #373B47;
+    color: #51CFBC;
+    border: 1.5px solid #EEE1E1;
+    width: 120px;
     height: 30px;
     cursor: pointer;
-    background-color: #7EEF14;
-    color: white;
-    font-weight: bold;
 }
-
+#btn_addProduct:active{
+    border: black 1px solid;
+}
 #txt_search {
     height: 30px;
 }
@@ -360,15 +363,12 @@ td {
 }
 
 .btn_addPro {
+background-color: #373B47;
+    color: #51CFBC;
+    border: 1.5px solid #EEE1E1;
+    width: 120px;
     height: 30px;
     cursor: pointer;
-    background-color: #7EEF14;
-    color: white;
-    font-weight: bold;
-
-    height: 40px;
-    width: 120px;
-    border: none;
 }
 
 .btn_addPro:active {
@@ -383,10 +383,6 @@ td {
     align-items: center;
     margin-top: 50px;
 }
-
-#selectorMovement {}
-
-#selectorCategory {}
 
 #lbl-Box2 {
     margin-right: 10px;
@@ -422,20 +418,34 @@ td {
 }
 
 #btn_searchProduct {
+    background-color: #373B47;
+    color: #51CFBC;
+    border: 1.5px solid #EEE1E1;
+    width: 120px;
     height: 30px;
     cursor: pointer;
-    background-color: #7EEF14;
-    color: white;
-    font-weight: bold;
+}
+#btn_searchProduct:active{
+    border: 1.5px solid black;
 }
 
 /* Category styling==================================================================================== */
 .btn_styling {
-    height: 30px;
+    /* height: 30px;
     cursor: pointer;
     background-color: #7EEF14;
     color: white;
-    font-weight: bold;
+    font-weight: bold; */
+
+    background-color: #373B47;
+    color: #51CFBC;
+    border: 1.5px solid #EEE1E1;
+    width: 120px;
+    height: 30px;
+    cursor: pointer;
+}
+.btn_styling:active{
+    border: 1.5px solid black;
 }
 .txt_input_categoryStyling{
     height: 25px;

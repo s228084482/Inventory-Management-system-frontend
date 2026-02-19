@@ -1,0 +1,135 @@
+.user-main-content{
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    border: 1px solid #EEE1E1;
+    min-height: 82.7vh;
+}
+.user-top-content{
+    border: 1px solid #EEE1E1;
+    height: 80px;
+    padding: 6px;
+    overflow: auto;
+    margin-bottom: 6px;
+}
+.user-bottom-content{
+    border: 1px solid #EEE1E1;
+    min-height: 65vh;
+    padding: 6px;
+}
+.user-top-content h1{
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+.user-top-content .add-user-btn{
+    display: flex;
+    justify-content: left;
+    align-items: start;
+    width: 50%;
+}
+.user-top-content .search-user-side{
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    width: 50%;
+}
+.btn-styling{
+    background-color: #373B47;
+    color: #51CFBC;
+    border: 1.5px solid #EEE1E1;
+    width: 120px;
+    height: 30px;
+    cursor: pointer;
+}
+.btn-styling:active{
+    border: 1.5px solid black;
+}
+.sub-main-top-content{
+    display: flex;
+    flex-direction: row;
+}
+.txt-user-search{
+    height: 30px;
+}
+.user-Table{
+    width: 100%;
+    border: none;
+    border-collapse: collapse;
+}
+
+.user-Table th,
+.user-Table td {
+    height: 60px;
+    width: 60px;
+
+    padding: 10px;
+    border: none;
+}
+.btn-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 30px;
+}
+.btn_edit{    
+    width: 40px;
+    height: 25px;                                  
+    background-color: rgb(60, 83, 145);
+    border: 1.5px solid #EEE1E1;
+    margin-right: 8px;
+}
+.btn_delete{
+    width: 40px;
+    height: 25px;
+    background-color: rgb(194, 18, 18);
+    border: 1.5px solid #EEE1E1;
+}
+.btn_edit:active{
+    border: 1.5px solid black;
+}
+.btn_delete:active{
+    border: 1.5px solid black;
+}
+#user-subBox {
+    border: #EEE1E1 solid 1px;
+    width: 400px;
+    height: 200px;
+    border-radius: 14px;
+    padding: 10px;
+    /* justify-content: center;
+    justify-items: center; */
+    box-shadow: 3px 1.5px 4px #849ad8;
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+#user-subBox p {
+    font-weight: bold;
+    font-size: medium;
+}
+
+#user-imageBox {
+    background-color: #B2EBF2;
+    width: 90px;
+    height: 90px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    margin-right: 6px;
+}
+.sub-box-top{
+    display: flex;
+    flex-direction: row;
+}
+.user-info{
+    display: flex;
+    flex-direction: column;
+}
+.user-info #txt-user{
+    font-size: 25px;
+    color: #2d51b3;
+}

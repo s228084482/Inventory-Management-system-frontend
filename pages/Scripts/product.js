@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //         method: "POST",
 //         body: dataForm
 //     }).then(response => response.text)
-//         , then(result => {
+//         .then(result => {
 //             console.log(result);
 //             alert("Saved successfully.");
 //         }).catch(err => console.error(err));

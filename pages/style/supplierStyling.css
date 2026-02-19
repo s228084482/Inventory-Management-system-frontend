@@ -31,11 +31,17 @@
     align-items: center;
 }
 #btn_add_supplier{
-    height: 40px;
-    cursor: pointer;
-    background-color: #7EEF14;
-    color: white;
-    font-weight: bold;
-    border: none;
+   background-color: #373B47;
+    color: #51CFBC;
+    border: 1.5px solid #EEE1E1;
     width: 120px;
+    height: 30px;
+    cursor: pointer;
+}
+#btn_add_supplier:active{
+     border: 1.5px solid black;
+}
+#btn_add_supplier:active{
+    background-color: #373B47;
+    border: 1.5px solid #EEE1E1;
 }
