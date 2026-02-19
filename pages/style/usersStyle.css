@@ -129,7 +129,7 @@
     display: flex;
     flex-direction: column;
 }
-.user-info #txt-user{
+.user-info .txt-user{
     font-size: 25px;
     color: #2d51b3;
 }

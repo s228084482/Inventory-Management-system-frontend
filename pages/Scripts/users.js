@@ -3,7 +3,10 @@ document.getElementById("btn_addAction").addEventListener("click", () => {
 
 });
 
-fetch("")
+// avoiding a script to run before DOM loads
+document.addEventListener("DOMContentLoaded",() =>{
+
+    fetch("")
     .then(response => response.json())
     .then(user => {
         const tablebody = document.querySelector("#UserTable tbody");
@@ -58,15 +61,15 @@ fetch("")
 
                                 </div>
                                 <div class="user-info">
-                                    <p id="txt-user">${data.fullName}</p>
-                                    <p id="txt-user">${data.email}</p>
-                                    <p id="txt-user">${data.role}</p>
+                                    <p class="txt-user">${data.fullName}</p>
+                                    <p class="txt-user">${data.email}</p>
+                                    <p class="txt-user">${data.role}</p>
                                 </div>
                             </div>
 
                             <div>
                                 <p id="user-number">${data.phoneNumber}</p>
-                                <p id="user-experience">${data.eperience}</p>
+                                <p id="user-experience">${data.experience}</p>
                             </div>
 
                             <div id="viewDetails" class="btn-container">
@@ -86,4 +89,12 @@ fetch("")
             tablebody.appendChild(row);
         });
 
-    }).catch(err => console.err(err));
+    }).catch(err => console.error(err));
+});
+
+async function editCategory(id) {
+    
+}
+async function deleteCategory(id) {
+    
+}
