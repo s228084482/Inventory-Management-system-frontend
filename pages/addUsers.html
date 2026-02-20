@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Product</title>
+    <link rel="stylesheet" href="style/stylesheet.css" />
+    <link rel="stylesheet" href="style/usersStyle.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <div id="addingProductSectionMain">
+        <div id="user-subAdding">
+            <h1>Register user</h1>
+            <form action="dashboard.html" method="get" id="register_user">
+                <div id="user-hBox">
+                    <!-- <div id="user-lbl-Box">
+                        <label for="fullName">Full name:</label>
+                    </div> -->
+                    <!-- <i class="fa-solid fa-user"></i> -->
+                    <div id="user-txt-box">
+                        <input type="text" placeholder="Full Name" class="user-txtInput" name="fullName" required>
+                    </div>
+                </div>
+
+
+                <div id="user-hBox">
+                    <!-- <div id="user-lbl-Box">
+                        <label for="userEmail">Email:</label>
+                    </div> -->
+                    <!-- <i class="fa-solid fa-envelope"></i> -->
+                    <div id="user-txt-box">
+                        <input type="text" placeholder="Email address" class="user-txtInput" name="userEmail" required>
+                    </div>
+                </div>
+
+                <div id="user-hBox">
+                    <!-- <div id="user-lbl-Box">
+                        <label for="phoneNumber">Phone number:</label>
+                    </div> -->
+                    <!-- <i class="fa-solid fa-phone"></i> -->
+                    <div id="user-txt-box">
+                        <input type="number" placeholder="Phone Number" class="user-txtInput" name="phoneNumber" required>
+                    </div>
+                </div>
+                <div id="user-hBox">
+                    <!-- <div id="user-lbl-Box2">
+                        <label for="role">Select role:</label>
+                    </div> -->
+                    <div id="user-txt-box2">
+                        <!-- <i class="fa-solid fa-user-tag"></i> -->
+                        <select class="user-txtInputT" id="selectorCategory" name="role" required>
+                            <option value="">Select role</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Staff">Staff</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="user-hBox">
+                    <!-- <div id="user-lbl-Box">
+                        <label for="experience">Experience:</label>
+                    </div> -->
+                    <!-- <i class="fa-solid fa-briefcase"></i> -->
+                    <div id="user-txt-box">
+                        <input type="text" placeholder="Experience" class="user-txtInput" name="experience" required>
+                    </div>
+                </div>
+
+                <div id="user-hBox">
+                    <!-- <div id="user-lbl-Box">
+                        <label for="password">Password:</label>
+                    </div> -->
+                    <!-- <i class="fa-solid fa-lock"></i> -->
+                    <div id="user-txt-box">
+                        <input type="text" placeholder="Password" class="user-txtInput" name="password" required>
+                    </div>
+                </div>
+
+            </form>
+
+            <div id="hBox-button">
+                <button form="register_user" type="submit" id="btn_register" class="btn_addPro">Register</button>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script src="Scripts/users.js"></script>
+
+</html>

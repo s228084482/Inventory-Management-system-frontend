@@ -1,7 +1,9 @@
 
 document.getElementById("btn_addAction").addEventListener("click", () => {
-
+    // window.location.href = "addUsers.html";
+    window.location.href = "login.html";
 });
+
 
 // avoiding a script to run before DOM loads
 document.addEventListener("DOMContentLoaded",() =>{
@@ -11,7 +13,6 @@ document.addEventListener("DOMContentLoaded",() =>{
     .then(user => {
         const tablebody = document.querySelector("#UserTable tbody");
         tablebody.innerHTML = "";
-        const count = 0;
 
         user.forEach(data => {
             const row = document.createElement("tr");

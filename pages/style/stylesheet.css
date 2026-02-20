@@ -272,7 +272,7 @@ p {
     cursor: pointer;
 }
 #btn_addProduct:active{
-    border: black 1px solid;
+    border: 1.5px solid black;
 }
 #txt_search {
     height: 30px;

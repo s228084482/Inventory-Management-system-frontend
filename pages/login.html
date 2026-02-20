@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Product</title>
+    <link rel="stylesheet" href="style/stylesheet.css" />
+    <link rel="stylesheet" href="style/usersStyle.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <div id="addingProductSectionMain">
+        <div id="login-subAdding">
+            <h1>Login</h1>
+            <form action="dashboard.html" method="get" id="login">
+                <div class="img-container">
+                    <div id="profile-box">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+                
+
+
+                <div id="user-hBox">
+                    <!-- <i class="fa-solid fa-envelope"></i> -->
+                    <div id="user-txt-box">
+                        <input type="text" placeholder="Username/Email" class="login-user-txtInput" name="userEmail" required>
+                    </div>
+                </div>
+
+                <div id="user-hBox">
+                    <!-- <i class="fa-solid fa-lock"></i> -->
+                    <div id="user-txt-box">
+                        <input type="text" placeholder="Password" class="login-user-txtInput" name="password" required>
+                    </div>
+                </div>
+
+                <div id="user-hBox" class="question">
+                    <p>Have an account?</p><a href="addUsers.html">Register</a>
+                </div>
+
+            </form>
+
+            <div id="login-hBox-button">
+                <button form="login" type="submit" id="btn_login" class="btn_addPro">Login</button>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script src="Scripts/login.js"></script>
+
+</html>
