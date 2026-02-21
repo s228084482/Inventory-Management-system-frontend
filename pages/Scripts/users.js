@@ -1,7 +1,7 @@
 
 document.getElementById("btn_addAction").addEventListener("click", () => {
-    // window.location.href = "addUsers.html";
-    window.location.href = "login.html";
+    window.location.href = "addUsers.html";
+    // window.location.href = "login.html";
 });
 
 
