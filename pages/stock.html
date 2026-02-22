@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <title>Stock</title>
     <link rel="stylesheet" href="style/stylesheet.css" />
+    <link rel="stylesheet" href="style/stockStyle.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
@@ -89,10 +90,53 @@
 
         </article>
         <article id="content">
+            <div class="stock-history-main">
+                <div class="stock-top-content">
+                    <button type="submit" class="stock_btns">Increase stock</button>
+                    <button type="submit" class="stock_btns">Reduce stock</button>
+                </div>
+                <div class="stock-bottom-content">
 
+                    <div class="sock-history">
+                        <h1>REPORT</h1>
+                        <p>--------------------------------------------------------------------------------------------------</p>
+                
+                        <div class="report-content">
+                            <div class="info-display-main">
+                                <div class="left-display">MOVEMENT STATUS:</div>
+                                <div class="right-display" id="status_movement"></div>
+                            </div>
+
+                            <div class="info-display-main">
+                                <div class="left-display">PRODUCT NAME:</div>
+                                <div class="right-display" id="product_name"></div>
+                            </div>
+
+                            <div class="info-display-main">
+                                <div class="left-display">QUANTITY:</div>
+                                <div class="right-display" id="quantity"></div>
+                            </div>
+
+                            <div class="info-display-main">
+                                <div class="left-display">DATE:</div>
+                                <div class="right-display" id="date"></div>
+                            </div>
+
+                            <p>--------------------------------------------------------------------------------------------------</p>
+
+                            <div class="info-display-main">
+                                <div class="left-display">MESSAGE:</div>
+                                <div class="right-display" id="message"></div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </article>
     </section>
-    <script src="Scripts/frontEndScript.js"></script>
+    <script src="Scripts/stock.js"></script>
 </body>
 
 </html>

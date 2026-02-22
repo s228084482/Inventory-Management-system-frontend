@@ -3,6 +3,7 @@ body {
     background-color: #373B47;
     color: white;
     min-width: 50%;
+    min-height: 100vh;
 }
 
 #layout {
@@ -13,7 +14,8 @@ body {
 
 #navigationSide {
     width: 150px;
-    height: 85vh;
+    min-height: 85vh;
+    max-height: 90vh;
     background-color: #4E5664;
     color: white;
     border-radius: 13px;
