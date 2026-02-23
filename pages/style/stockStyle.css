@@ -4,7 +4,6 @@
 
     display: flex;
     flex-direction: column;
-    /* border: 1px solid #EEE1E1; */
 }
 .stock-top-content{
     height: 50px;
@@ -14,7 +13,7 @@
     display: flex;
     flex-direction: row;
     justify-content: end;
-    align-items: end;
+    align-items: center;
     /* border-bottom: 1px solid #EEE1E1; */
 }
 .stock-bottom-content{
@@ -22,6 +21,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    max-height: 450px;
+    /* overflow-y: auto; */
 }
 .sock-history{
     width: 700px;
@@ -30,6 +32,7 @@
     box-shadow: 1px 1px 4px #849ad8;
     border-radius: 12px;
     padding: 6px;
+    margin-top: 50px;
 }
 .sock-history h1{
     text-align: center;
@@ -67,4 +70,31 @@
 }
 .stock_btns:active{
     border: 1.5px solid black;
+}
+.user-table-container {
+    max-height: 470px;
+    width: 750px;
+    overflow-y: auto;
+    padding: 3px;
+    scrollbar-width: none;
+    cursor:move;
+}
+
+.user-Table thead th {
+    position: sticky;
+    top: 0;
+    color: black;
+    z-index: 2;
+}
+
+.user-Table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.user-Table th,
+.user-Table td {
+    padding: 10px;
+    /* border-bottom: 1px solid #ddd; */
+    height: 20px;
 }

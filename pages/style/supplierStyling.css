@@ -5,14 +5,19 @@
     height:530px;
 }
 .supplier-left-content{
-     border: 1px solid #EEE1E1;
+     /* border: 1px solid #EEE1E1; */
+      box-shadow: 1px 1px 4px #849ad8;
      height: 525px;
      flex: 0.7;
      margin-right: 5px;
      padding: 6px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-direction: column;
 }
 .supplier-right-content{
-     border: 1px solid #EEE1E1;
+     /* border: 1px solid #EEE1E1; */
      height: 525px;
      flex: 1;
      padding: 6px;
