@@ -5,7 +5,7 @@ const categories = null;
 
 async function loadCategoryData(){
     try{
-        const response = await fetch('http://localhost:8080//api/category/getAllCategoryData');
+        const response = await fetch('http://localhost:8080/api/category/getAllCategoryData');
         categories = await response.json();
         renderCategories(categories);
     }catch(error){

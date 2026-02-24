@@ -1,12 +1,31 @@
 
-document.getElementById("btn_addAction").addEventListener("click", () => {
-    window.location.href = "addUsers.html";
-    // window.location.href = "login.html";
-});
 
 
 // avoiding a script to run before DOM loads
 document.addEventListener("DOMContentLoaded",() =>{
+
+    const btn_addAction = document.getElementById("btn_addAction");
+    const btn_editProfile = document.getElementById("btn_editProfile");
+
+    if(btn_addAction){
+        btn_addAction.addEventListener("click", ()=>{
+            window.location.href = "addUsers.html";
+        });
+    }
+
+    if(btn_editProfile){
+        btn_editProfile.addEventListener("click", ()=>{
+            window.location.href = "EditUser.html";
+        });
+    }
+
+    // document.getElementById("btn_addAction").addEventListener("click", () => {
+    //     window.location.href = "addUsers.html";
+    //     // window.location.href = "login.html";
+    // });
+    // document.getElementById("btn_editProfile").addEventListener("click", () => {
+    //     window.location.href = "EditUser.html";
+    // });
 
     fetch("")
     .then(response => response.json())
@@ -94,8 +113,26 @@ document.addEventListener("DOMContentLoaded",() =>{
 });
 
 async function editCategory(id) {
+    window.location.href = "EditUser.html"
     
+    performEdit(id);
 }
 async function deleteCategory(id) {
-    
+
+
+}
+
+async function performEdit(id){
+
+    //  const category = {
+    //     categoryName: document.getElementById("").value
+    // }
+
+    // await fetch('http://localhost:8080//api/user/${id}', {
+    //     method: "PUT",
+    //     headers:{
+    //         "Content-Type": "application/json"
+    //     },
+    //     body: JSON.stringify(category)
+    // });
 }

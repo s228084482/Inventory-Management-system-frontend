@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Product</title>
+    <link rel="stylesheet" href="style/stylesheet.css" />
+    <link rel="stylesheet" href="style/usersStyle.css" />
+    <link rel="stylesheet" href="style/profileStyle.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <div id="addingProductSectionMain">
+        <div id="edit-profile-subAdding">
+            <h1>EDIT PROFILE</h1>
+            <div class="img-container">
+                <div id="profile-box">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+            </div>
+
+            <form action="" id="editForm">
+
+                <div id="profile-hBox">
+                    <div id="user-lbl-Box">
+                        <label for="fullName">Full Name</label>
+                    </div>
+                    <div id="user-txt-box">
+                        <input type="text" placeholder="Full Name" class="user-txtInput" name="fullName"
+                            required>
+                    </div>
+                </div>
+
+                <div id="profile-hBox">
+                    <div id="user-lbl-Box">
+                        <label for="email">Email</label>
+                    </div>
+                    <div id="user-txt-box">
+                        <input type="text" placeholder="Email" class="user-txtInput" name="email"
+                            required>
+                    </div>
+                </div>
+
+                <div id="profile-hBox">
+                    <div id="user-lbl-Box">
+                        <label for="username">Username</label>
+                    </div>
+                    <div id="user-txt-box">
+                        <input type="text" placeholder="Username" class="user-txtInput" name="username"
+                            required>
+                    </div>
+                </div>
+
+                <div id="profile-hBox">
+                    <div id="user-lbl-Box">
+                        <label for="phoneNumber">Phone Number</label>
+                    </div>
+                    <div id="user-txt-box">
+                        <input type="number" placeholder="Phone Number" class="user-txtInput" name="phoneNumber"
+                            required>
+                    </div>
+                </div>
+
+                <div id="profile-hBox">
+                    <div id="user-lbl-Box">
+                        <label for="experience">Experience</label>
+                    </div>
+                    <div id="user-txt-box">
+                        <input type="text" placeholder="Experience" class="user-txtInput" name="experience"
+                            required>
+                    </div>
+                </div>
+            </form>
+
+            <div id="login-hBox-button">
+                <button form="editForm" type="submit" id="btn_DoneEditing" class="btn_addPro">Done</button>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script src="Scripts/users.js"></script>
+
+</html>

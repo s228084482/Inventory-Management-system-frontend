@@ -6,6 +6,17 @@ const data = [
 ];
 populateTable(data);
 
+// async function getReportData() {
+//     try {
+//         const response = await fetch("http://localhost:8080/api/");
+//         const data = response.json();
+//         populateTable(data);
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
+
+
 function populateTable(data) {
     const tablebody = document.querySelector("#stockTable tbody");
     tablebody.innerHTML = "";

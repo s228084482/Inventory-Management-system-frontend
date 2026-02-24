@@ -4,6 +4,8 @@ body {
     color: white;
     min-width: 50%;
     min-height: 100vh;
+
+    /* scrollbar-width: none; */
 }
 
 #layout {

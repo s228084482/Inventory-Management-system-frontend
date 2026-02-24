@@ -1,0 +1,47 @@
+#profile-subAdding {
+    height: 560px;
+    width: 500px;
+    padding: 6px;
+    font-size: x-large;
+
+    /* border: #EEE1E1 solid 1px; */
+    border-radius: 12px;
+    box-shadow: 1px 1px 4px #849ad8;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#profile-hBox {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    margin-bottom: 9px;
+    margin-left: 20px;
+}
+.profile-tags{
+    margin-right: 9px;
+    color: blue;
+}
+#edit-profile-subAdding{
+    height: 560px;
+    width: 600px;
+    padding: 6px;
+    font-size: x-large;
+
+    /* border: #EEE1E1 solid 1px; */
+    border-radius: 12px;
+    box-shadow: 1px 1px 4px #849ad8;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#edit-profile-subAdding #user-lbl-Box{
+    width: 150px;
+}
