@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //             body: formData  
 //         }).then(response => response.text)
 //             .then(result => {
-//                 console, log(result);
+//                 console.log(result);
 //                 alert("Product saved successfully");
 //             }).catch(err => console.error(err));
 //     });

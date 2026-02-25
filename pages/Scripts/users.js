@@ -1,31 +1,5 @@
 
-
-
-// avoiding a script to run before DOM loads
-document.addEventListener("DOMContentLoaded",() =>{
-
-    const btn_addAction = document.getElementById("btn_addAction");
-    const btn_editProfile = document.getElementById("btn_editProfile");
-
-    if(btn_addAction){
-        btn_addAction.addEventListener("click", ()=>{
-            window.location.href = "addUsers.html";
-        });
-    }
-
-    if(btn_editProfile){
-        btn_editProfile.addEventListener("click", ()=>{
-            window.location.href = "EditUser.html";
-        });
-    }
-
-    // document.getElementById("btn_addAction").addEventListener("click", () => {
-    //     window.location.href = "addUsers.html";
-    //     // window.location.href = "login.html";
-    // });
-    // document.getElementById("btn_editProfile").addEventListener("click", () => {
-    //     window.location.href = "EditUser.html";
-    // });
+async function loadTable() {
 
     fetch("")
     .then(response => response.json())
@@ -59,10 +33,10 @@ document.addEventListener("DOMContentLoaded",() =>{
 
                             <div id="viewDetails" class="btn-container">
 
-                                <button class="btn_edit" onclick="editCategory(${data.userId})">
+                                <button class="btn_edit" onclick="editUser(${data.userId})">
                                     <i class="fa-solid fa-pen"></i>
                                 </button>
-                                <button class="btn_delete" onclick="deleteCategory(${data.userId})">
+                                <button class="btn_delete" onclick="deleteUser(${data.userId})">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </div>
@@ -94,10 +68,10 @@ document.addEventListener("DOMContentLoaded",() =>{
 
                             <div id="viewDetails" class="btn-container">
 
-                                <button class="btn_edit" onclick="editCategory(${data.userId})">
+                                <button class="btn_edit" onclick="editUser(${data.userId})">
                                     <i class="fa-solid fa-pen"></i>
                                 </button>
-                                <button class="btn_delete" onclick="deleteCategory(${data.userId})">
+                                <button class="btn_delete" onclick="deleteUser(${data.userId})">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                             </div>
@@ -110,29 +84,98 @@ document.addEventListener("DOMContentLoaded",() =>{
         });
 
     }).catch(err => console.error(err));
+}
+loadTable();
+
+// avoiding a script to run before DOM loads
+document.addEventListener("DOMContentLoaded",() =>{
+
+    const btn_addAction = document.getElementById("btn_addAction");
+    const btn_editProfile = document.getElementById("btn_editProfile");
+    const btn_search = document.getElementById("btn_searchUser");
+    const searchValue = document.getElementById("txt_searchUser").value.toLowerCase();
+    const row = document.querySelectorAll("#UserTable tbody tr");
+
+    if(btn_addAction){
+        btn_addAction.addEventListener("click", ()=>{
+            window.location.href = "addUsers.html";
+        });
+    }
+
+    if(btn_editProfile){
+        btn_editProfile.addEventListener("click", ()=>{
+            window.location.href = "EditUser.html";
+        });
+    }
+
+    if(btn_search){
+        btn_search.addEventListener("click", ()=>{
+            const user = row.cells[0].textContent.toLowerCase();
+            if(user.includes(searchValue)){
+                row.style.display = "";
+            }else{
+                alert("No user found.");
+            }
+
+            document.getElementById("txt_searchUser").innerHTML = "";
+        });
+    }
 });
 
-async function editCategory(id) {
+async function editUser(id) {
     window.location.href = "EditUser.html"
-    
     performEdit(id);
 }
-async function deleteCategory(id) {
+async function deleteUser(id) {
+    const confirm = confirm("Are you sure to delete this user?");
 
+    if(confirm){
+        try {
+            await fetch(`http://localhost:8080//api/user/${id}`, {
+                method: "DELETE"
+            });
 
+            loadTable();
+            alert("User is deleted!");
+
+        } catch (error) {
+            console.error(error);
+        }
+
+    }
 }
 
 async function performEdit(id){
 
-    //  const category = {
-    //     categoryName: document.getElementById("").value
-    // }
+    document.getElementById("editForm").addEventListener("submit", (event)=>{
+        event.preventDefault();
 
-    // await fetch('http://localhost:8080//api/user/${id}', {
-    //     method: "PUT",
-    //     headers:{
-    //         "Content-Type": "application/json"
-    //     },
-    //     body: JSON.stringify(category)
-    // });
+        const formData = new FormData(event.target);
+
+        Update(id,formData);
+    });
+
+}
+async function Update(id,formData) {
+
+     const user = {
+        name: formData.get("fullName"),
+        email: formData.get("email"),
+        phoneNumber: formData.get("phoneNumber"),
+        experience: formData.get("experience")
+    }
+    try {
+        await fetch(`http://localhost:8080//api/user/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user)
+        });
+
+        loadTable()
+        alert("User is Updated!")
+    } catch (error) {
+        console.error(error);
+    }
 }

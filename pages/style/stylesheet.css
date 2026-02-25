@@ -197,7 +197,7 @@ p {
 }
 
 #subBox {
-    border: #EEE1E1 solid 1px;
+    /* border: #EEE1E1 solid 1px; */
     width: 250px;
     height: 180px;
     border-radius: 14px;
@@ -205,7 +205,7 @@ p {
     margin-right: 30px;
     justify-content: center;
     justify-items: center;
-    box-shadow: 3px 1.5px 4px #849ad8;
+    box-shadow: 1px 1px 4px #849ad8;
 
     display: flex;
     flex-direction: column;
@@ -218,7 +218,7 @@ p {
 }
 
 #subBoxBottom {
-    border: #EEE1E1 solid 1px;
+    /* border: #EEE1E1 solid 1px; */
     width: 1130px;
     height: 185px;
     border-radius: 14px;
@@ -228,7 +228,7 @@ p {
     justify-content: center;
     justify-items: center;
     margin-top: 6px;
-    box-shadow: 3px 1.5px 4px #849ad8;
+    box-shadow: 1px 1px 4px #849ad8;
 }
 
 #imageBox {

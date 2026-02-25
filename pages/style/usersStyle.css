@@ -2,18 +2,18 @@
     display: flex;
     flex-direction: column;
     padding: 6px;
-    border: 1px solid #EEE1E1;
+    /* border: 1px solid #EEE1E1; */
     min-height: 82.7vh;
 }
 .user-top-content{
-    border: 1px solid #EEE1E1;
+    box-shadow: 1px 1px 4px #849ad8;
     height: 80px;
     padding: 6px;
     overflow: auto;
     margin-bottom: 6px;
 }
 .user-bottom-content{
-    border: 1px solid #EEE1E1;
+    box-shadow: 1px 1px 4px #849ad8;
     min-height: 65vh;
     padding: 6px;
 }
