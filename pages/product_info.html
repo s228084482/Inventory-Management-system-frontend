@@ -10,33 +10,34 @@
 
 <body>
     <div id="addingProductSectionMain">
-        <div id="subAdding">
-            <h1>Add products information</h1>
+        <div id="product-subAdding">
+            <h1>Assign product</h1>
             <form action="products.html" id="formProductInfo" method="get">
                 <div id="hBox">
-                    <div id="lbl-Box2">
+                    <!-- <div id="lbl-Box2">
                         <label for="supplierName">Supplier Name:</label>
-                    </div>
+                    </div> -->
                     <div id="txt-box2">
-                        <input type="text" class="txtInput2" name="supplierName" required>
+                        <input type="text" placeholder="Supplier Name" class="txtInput2" name="supplierName" required>
                     </div>
                 </div>
                 
-                <div id="hBox">
+                <!-- <div id="hBox">
                     <div id="lbl-Box2">
                         <label for="rate">Rating:</label>
                     </div>
                     <div id="txt-box2">
                         <input type="number" class="txtInput2" min="1" max="5" step="1" name="rate" required>
                     </div>
-                </div>
+                </div> -->
 
                 <div id="hBox">
-                    <div id="lbl-Box2">
+                    <!-- <div id="lbl-Box2">
                         <label for="move">Movement Type:</label>
-                    </div>
+                    </div> -->
                     <div id="txt-box2">
                         <select class="txtInputT" id="selectorMovement" name="move" required>
+                            <option value="">Select Movement Type</option>
                             <option value="all">In</option>
                             <option value="status">Out</option>
                         </select>
@@ -44,12 +45,13 @@
                 </div>
 
                 <div id="hBox">
-                    <div id="lbl-Box2">
+                    <!-- <div id="lbl-Box2">
                         <label for="category">Select Categpry:</label>
-                    </div>
+                    </div> -->
                     <div id="txt-box2">
                        <select class="txtInputT" id="selectorCategory" name="category" required>
-                            <option value="all"></option>
+                        <option value="">Select Category</option>
+                        <option value="all"></option>
                             
                         </select>
                     </div>

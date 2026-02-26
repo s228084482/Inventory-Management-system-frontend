@@ -1,4 +1,50 @@
 
+async function loadTableData() {
+
+    fetch("http://localhost:8080/api/products/getProduct")
+        .then(response => response.json())
+        .then(products => {
+            const tablebody = document.querySelector("#productTable tbody");
+            tablebody.innerHTML = "";
+
+            products.forEach(product => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                <td>${product.name}</td>
+                <td>${product.price}</td>
+                <td>${product.description}</td>
+                <td>${product.qauntity}</td>
+                <td>${product.status}</td>
+                <td>
+                <button class="btn_edit" onclick="editProduct(${product.id},${product.name})">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+                <button class="btn_delete" onclick="deleteProduct(${product.id})">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+                </td>
+                `;
+
+                tablebody.appendChild(row);
+            });
+        })
+
+}
+loadTableData();
+
+async function editProduct(id,productName) {
+     window.location.href = "EditProduct.html";
+     handleEditFunctionality(id,productName);
+}
+async function handleEditFunctionality(id,productName) {
+
+    
+}
+async function deleteProduct(id) {
+    
+}
+
 document.getElementById("btn_searchProduct"), addEventListener("click", () => {
     const searchValue = document.getElementById("txt_search").value.toLowerCase();
     const row = document.querySelectorAll("#productTable tbody tr");
@@ -66,21 +112,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // });
 
-
-// fetch("http://localhost:8080/api/products/getProduct")
-//     .then(response => response.json())
-//     .then(products => {
-//         const tablebody = document.querySelector("#productTable tbody");
-//         tablebody.innerHTML = "";
-
-//         // products.forEach(product => {
-//         //     const row = document.createElement("tr");
-
-//         //     row.innerHTML = '
-//         //     <td>${product.}</td>
-//         //     <td></td>
-//         //     <td></td>
-//         //     <td></td>
-//         //     ';
-//         // });
-//     })

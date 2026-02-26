@@ -1,3 +1,43 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const btn_editProfile = document.getElementById("btn_editProfile");
+    if (btn_editProfile) {
+        btn_editProfile.addEventListener("click", () => {
+            window.location.href = "EditUser.html";
+        });
+    }
+});
+
+// avoiding a script to run before DOM loads
+document.addEventListener("DOMContentLoaded", () => {
+
+    const btn_addAction = document.getElementById("btn_addAction");
+    const btn_search = document.getElementById("btn_searchUser");
+    const searchValue = document.getElementById("txt_searchUser").value.toLowerCase();
+    const row = document.querySelectorAll("#UserTable tbody tr");
+
+ 
+
+    if(btn_addAction){
+        btn_addAction.addEventListener("click", ()=>{
+            window.location.href = "addUsers.html";
+        });
+    }
+
+    
+
+    if(btn_search){
+        btn_search.addEventListener("click", ()=>{
+            const user = row.cells[0].textContent.toLowerCase();
+            if(user.includes(searchValue)){
+                row.style.display = "";
+            }else{
+                alert("No user found.");
+            }
+
+            document.getElementById("txt_searchUser").innerHTML = "";
+        });
+    }
+});
 
 async function loadTable() {
 
@@ -87,41 +127,6 @@ async function loadTable() {
 }
 loadTable();
 
-// avoiding a script to run before DOM loads
-document.addEventListener("DOMContentLoaded",() =>{
-
-    const btn_addAction = document.getElementById("btn_addAction");
-    const btn_editProfile = document.getElementById("btn_editProfile");
-    const btn_search = document.getElementById("btn_searchUser");
-    const searchValue = document.getElementById("txt_searchUser").value.toLowerCase();
-    const row = document.querySelectorAll("#UserTable tbody tr");
-
-    if(btn_addAction){
-        btn_addAction.addEventListener("click", ()=>{
-            window.location.href = "addUsers.html";
-        });
-    }
-
-    if(btn_editProfile){
-        btn_editProfile.addEventListener("click", ()=>{
-            window.location.href = "EditUser.html";
-        });
-    }
-
-    if(btn_search){
-        btn_search.addEventListener("click", ()=>{
-            const user = row.cells[0].textContent.toLowerCase();
-            if(user.includes(searchValue)){
-                row.style.display = "";
-            }else{
-                alert("No user found.");
-            }
-
-            document.getElementById("txt_searchUser").innerHTML = "";
-        });
-    }
-});
-
 async function editUser(id) {
     window.location.href = "EditUser.html"
     performEdit(id);
@@ -163,7 +168,8 @@ async function Update(id,formData) {
         email: formData.get("email"),
         phoneNumber: formData.get("phoneNumber"),
         experience: formData.get("experience")
-    }
+    };
+
     try {
         await fetch(`http://localhost:8080//api/user/${id}`, {
             method: "PUT",
