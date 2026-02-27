@@ -141,7 +141,7 @@ async function deleteUser(id) {
             });
 
             loadTable();
-            alert("User is deleted!");
+            alert("User is Successfully deleted!");
 
         } catch (error) {
             console.error(error);
@@ -180,7 +180,7 @@ async function Update(id,formData) {
         });
 
         loadTable()
-        alert("User is Updated!")
+        alert("User is Successfully Updated!")
     } catch (error) {
         console.error(error);
     }

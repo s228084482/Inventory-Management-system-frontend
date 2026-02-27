@@ -17,7 +17,7 @@ async function loadTableData() {
                 <td>${product.qauntity}</td>
                 <td>${product.status}</td>
                 <td>
-                <button class="btn_edit" onclick="editProduct(${product.id},${product.name})">
+                <button class="btn_edit" onclick="editProduct(${product.id})">
                     <i class="fa-solid fa-pen"></i>
                 </button>
                 <button class="btn_delete" onclick="deleteProduct(${product.id})">
@@ -33,39 +33,84 @@ async function loadTableData() {
 }
 loadTableData();
 
-async function editProduct(id,productName) {
+async function editProduct(id) {
      window.location.href = "EditProduct.html";
      handleEditFunctionality(id,productName);
 }
-async function handleEditFunctionality(id,productName) {
+async function handleEditFunctionality(id) {
 
-    
+    document.getElementById("product_editForm").addEventListener("submit", (event)=>{
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+
+        update(formData,id);
+    });
+}
+async function update(formData,id) {
+    try {
+
+        const product ={
+            productName: formData.get("productName"),
+            price: formData.get("price"),
+            quantity: formData.get("quantity"),
+            description: formData.get("description")
+        };
+
+        await fetch(`http://localhost:8080/api/products/${id}`, {
+            method: "PUT",
+            headers:{
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(product)
+        });
+        loadTableData();
+        alert("Product successfully updated!");
+    } catch (error) {
+        console.error(error);
+    }
 }
 async function deleteProduct(id) {
-    
-}
-
-document.getElementById("btn_searchProduct"), addEventListener("click", () => {
-    const searchValue = document.getElementById("txt_search").value.toLowerCase();
-    const row = document.querySelectorAll("#productTable tbody tr");
-
-    row.forEach(row => {
-        const productName = row.cells[0].textContent.toLowerCase();
-        if (productName.includes(searchValue)) {
-            row.style.display = "";
-        } else {
-            row.style.display = "none";
+    const confirm = confirm("Are you sure to delete this product?");
+        if(confirm){
+            try {
+            
+                await fetch(`http://localhost:8080/api/products/${id}`, {
+                    method: "DELETE"
+                });
+                loadTableData();
+                alert("Product is Successfully deleted!")
+            } catch (error) {
+                console.error(error);
+            }
         }
-    });
-});
-
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     const btn_add = document.getElementById("btn_addProduct");
+    const btn_search = document.getElementById("btn_searchProduct");
+
+    const searchValue = document.getElementById("txt_search").value.toLowerCase();
+    const row = document.querySelectorAll("#productTable tbody tr");
+
 
     if (btn_add) {
         btn_add.addEventListener("click", () => {
             window.location.href = "add_product.html";
+        });
+    }
+
+    if (btn_search) {
+        btn_search.addEventListener("click", () => {
+            row.forEach(row => {
+                const productName = row.cells[0].textContent.toLowerCase();
+                if (productName.includes(searchValue)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+            document.getElementById("txt_search").innerHTML = "";
         });
     }
 });
