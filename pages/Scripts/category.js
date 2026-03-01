@@ -2,12 +2,13 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const searchValue = document.getElementById("txt_searchCategory").value.toLowerCase();
+    
     const row = document.querySelectorAll("#categoryTable tbody tr");
     const btnSearch = document.getElementById("btn_searchCategory");
 
     if(btnSearch){
         btnSearch.addEventListener("click", () => {
+            const searchValue = document.getElementById("txt_searchCategory").value.toLowerCase();
         row.forEach(row => {
             const categoryName = row.cells[0].textContent.toLowerCase();
             if (categoryName.includes(searchValue)) {
@@ -20,12 +21,38 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     }
 
-});
+    
+    const btn_addCadtegory = document.getElementById("btn_addCategory");
 
-const tableBody = document.querySelector("#categoryTable tbody");
-const categories = null;
+    if(btn_addCadtegory){
+        btn_addCadtegory.addEventListener("click", ()=>{
+            const categoryValue = document.getElementById("txt_categoryName").value;
+            if(categoryValue != null && categoryValue != ""){
+                fetch(`http://localhost:8080/api/category`,{
+                    method: "POST",
+                    headers:{
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        categoryName: categoryValue
+                    })
+                }).then(response => response.json())
+                .then(data =>{
+                    document.getElementById("txt_categoryName").value = "";
+                    alert("Category is successfully added.");
+
+                    console.log(data);
+                }).catch(err => console.error("Error: ",err));
+            }
+            // window.location.href = "addUsers.html";
+        });
+    }
+
+});
+    let categories = [];
 
 async function loadCategoryData() {
+    
     try {
         const response = await fetch(`http://localhost:8080/api/category/getAllCategoryData`);
         categories = await response.json();
@@ -34,9 +61,17 @@ async function loadCategoryData() {
         console.error(error);
     }
 }
-loadCategoryData();
+document.addEventListener("DOMContentLoaded", () => {
+    loadCategoryData();
+});
 
-function renderCategories(data) {
+async function renderCategories(data) {
+    const tableBody = document.querySelector("#categoryTable tbody");
+
+    if(!tableBody){
+        console.error("Table not found!");
+        return;
+    }
     tableBody.innerHTML = "";
 
     data.forEach(category => {
@@ -47,7 +82,7 @@ function renderCategories(data) {
             <td>${category.productAssigned}</td>
             <td>${category.percentage}</td>
             <td>
-                <button class="btn_edit" onclick="editCategory(${category.id},${category.name})">
+                <button class="btn_edit" onclick="editCategory(${category.id},'${category.name}')">
                     <i class="fa-solid fa-pen"></i>
                 </button>
                 <button class="btn_delete" onclick="deleteCategory(${category.id})">
@@ -67,7 +102,7 @@ async function deleteCategory(id) {
     if (!confirmDelete) return;
     else {
         try {
-            await fetch(`http://localhost:8080//api/category/${id}`, {
+            await fetch(`http://localhost:8080/api/category/${id}`, {
                 method: "DELETE"
             });
 
@@ -118,7 +153,7 @@ async function Update(id, Name) {
     }
 
     try {
-        await fetch(`http://localhost:8080//api/category/${id}`, {
+        await fetch(`http://localhost:8080/api/category/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
