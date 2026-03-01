@@ -105,7 +105,11 @@
                 </div>
 
                 <div id="prd-down-div" class="table-container">
-                    <table id="categoryTable" class="categoryTable">
+                    <div id="loadingSpinner" style="display: none;">
+                        <div class="spinner" >
+                        </div>
+                    </div>
+                    <table id="categoryTable" class="categoryTable1">
                         <thead>
                             <tr>
                                 <th>Category Name</th>
@@ -114,7 +118,7 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tableBody">
 
                         </tbody>
                 </div>

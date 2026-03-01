@@ -1,23 +1,26 @@
-
+let categories = [];
 
 document.addEventListener("DOMContentLoaded", () => {
 
     
     const row = document.querySelectorAll("#categoryTable tbody tr");
     const btnSearch = document.getElementById("btn_searchCategory");
+    
 
     if(btnSearch){
         btnSearch.addEventListener("click", () => {
-            const searchValue = document.getElementById("txt_searchCategory").value.toLowerCase();
-        row.forEach(row => {
-            const categoryName = row.cells[0].textContent.toLowerCase();
-            if (categoryName.includes(searchValue)) {
-                row.style.display = "";
-            } else {
-                row.style.display = "none";
+            const searchValue = document.getElementById("txt_searchCategory").value.toLowerCase().trim();
+            if(!searchValue){
+                renderCategories(categories);
+                return;
             }
-        });
-        document.getElementById("txt_searchCategory").innerHTML = "";
+
+            const matched = categories.filter(cat => cat.name.toLowerCase().includes(searchValue));
+            const notMached = categories.filter(cat => !cat.name.toLowerCase().includes(searchValue));
+            const reorder = [...matched, ...notMached];
+            renderCategories(reorder);
+            document.getElementById("txt_searchCategory").value = "";
+            alert("Note! all matching values will be displayed at the top, otherwise not found.")
     });
     }
 
@@ -40,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(data =>{
                     document.getElementById("txt_categoryName").value = "";
                     alert("Category is successfully added.");
-
+                    loadCategoryData();
                     console.log(data);
                 }).catch(err => console.error("Error: ",err));
             }
@@ -49,17 +52,38 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
-    let categories = [];
 
 async function loadCategoryData() {
-    
+    const tableBody = document.getElementById("tableBody");
+    const spinner = document.getElementById("loadingSpinner");
+    const table = document.getElementById("categoryTable");
+
+    if (!spinner || !table || !tableBody) {
+        console.error("One or more elements not found in DOM.");
+        return;
+    }
+
     try {
+        spinner.style.display = "flex";
+        table.style.display ="none";
+
         const response = await fetch(`http://localhost:8080/api/category/getAllCategoryData`);
         categories = await response.json();
         renderCategories(categories);
     } catch (error) {
         console.error(error);
+        tableBody.innerHTML = `
+        <tr>
+        <td colspan="4">Error loading data</td>
+        </tr> 
+        `;
+        spinner.style.display = "none";
+        table.style.display ="table";
+    }finally{
+        spinner.style.display = "none";
+        table.style.display ="table";
     }
+    
 }
 document.addEventListener("DOMContentLoaded", () => {
     loadCategoryData();
@@ -121,25 +145,20 @@ async function editCategory(id, oldName) {
     performEditImplementation(id, oldName);
 }
 async function performEditImplementation(id, oldName) {
+    const categoryUpdateForm = document.getElementById("Category_editForm");
+    categoryUpdateForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const categoryName = formData.get("categoryName");
 
-    document.addEventListener("DOMContentLoaded", () => {
-        const categoryUpdateForm = document.getElementById("Category_editForm");
-
-        if (categoryUpdateForm) {
-            categoryUpdateForm.addEventListener("submit", (event) => {
-                event.preventDefault();
-                const formData = new FormData(event.target);
-                const categoryName = formData.get("categoryName");
-
-                if(categoryName === oldName){
-                    alert("No update made.")
-                }else{
-                    Update(id, categoryName);
-                }
-
-            });
+        if (categoryName === oldName) {
+            alert("No update made.")
+        } else {
+            Update(id, categoryName);
         }
+
     });
+
 }
 
 async function Update(id, Name) {

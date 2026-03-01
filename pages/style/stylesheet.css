@@ -308,7 +308,7 @@ p {
 th,
 td {
     border: 1px solid #ccc;
-    height: 20px;
+    height:max-content;
 }
 
 /* tr:nth-child(even) {
@@ -505,7 +505,7 @@ background-color: #373B47;
 .txt_input_categoryStyling{
     height: 25px;
 }
-.categoryTable{
+.categoryTable1{
     width: 100%;
     border-collapse: collapse;
     font-family: Arial, sans-serif;
@@ -516,7 +516,7 @@ background-color: #373B47;
     /* border: 1px solid #ddd; */
 }
 
-.categoryTable thead th {
+.categoryTable1 thead th {
     position: sticky;
     top: 0;
     background-color: #fff;
@@ -524,14 +524,30 @@ background-color: #373B47;
     z-index: 2;
 }
 
-.categoryTable {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.categoryTable th,
-.categoryTable td {
+.categoryTable1 th,
+.categoryTable1 td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
-    height: 20px;
+    height:max-content;
+}
+.categoryTable1 tr{
+    height:auto;
+}
+.spinner{
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+@keyframes spin{
+    100% {transform: rotate(360deg);}
+}
+#loadingSpinner{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
