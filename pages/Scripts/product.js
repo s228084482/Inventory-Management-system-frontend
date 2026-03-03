@@ -1,7 +1,7 @@
 
 async function loadTableData() {
 
-    fetch("http://localhost:8080/api/products/getProduct")
+    fetch("http://localhost:8080/api/products/getAllProducts")
         .then(response => response.json())
         .then(products => {
             const tablebody = document.querySelector("#productTable tbody");
@@ -31,7 +31,9 @@ async function loadTableData() {
         })
 
 }
+document.addEventListener("DOMContentLoaded", ()=>{
 loadTableData();
+});
 
 async function editProduct(id) {
      window.location.href = "EditProduct.html";

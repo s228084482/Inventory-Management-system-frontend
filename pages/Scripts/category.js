@@ -7,19 +7,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if(btnSearch){
         btnSearch.addEventListener("click", () => {
-            const searchValue = document.getElementById("txt_searchCategory").value.toLowerCase().trim();
-            if(!searchValue){
-                renderCategories(categories);
-                return;
-            }
 
-            const matched = categories.filter(cat => cat.name.toLowerCase().includes(searchValue));
-            const notMached = categories.filter(cat => !cat.name.toLowerCase().includes(searchValue));
-            const reorder = [...matched, ...notMached];
-            renderCategories(reorder);
-            document.getElementById("txt_searchCategory").value = "";
-            alert("Note! all matching values will be displayed at the top, otherwise not found.")
-    });
+            try {
+                showSpinner();
+
+                const searchValue = document.getElementById("txt_searchCategory").value.toLowerCase().trim();
+                if (searchValue === "") {
+                    alert("Search value is required!");
+                    return;
+                }
+                if (!searchValue) {
+                    renderCategories(categories);
+                    return;
+                }
+                const matched = categories.filter(cat => cat.name.toLowerCase().includes(searchValue));
+                const notMached = categories.filter(cat => !cat.name.toLowerCase().includes(searchValue));
+                const reorder = [...matched, ...notMached];
+                renderCategories(reorder);
+                document.getElementById("txt_searchCategory").value = "";
+                alert("Note! all matching values will be displayed at the top, otherwise not found.")
+            } catch (error) {
+                hideSpinner();
+                alert("Something went wrong!");
+                console.error("Error: ", error);
+            } finally {
+                hideSpinner();
+            }
+        });
+
     }
 
     
@@ -28,7 +43,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if(btn_addCadtegory){
         btn_addCadtegory.addEventListener("click", ()=>{
             const categoryValue = document.getElementById("txt_categoryName").value;
+            if(categoryValue === ""){
+                alert("Category name is required!");
+                return;
+            }
+
             if(categoryValue != null && categoryValue != ""){
+                showSpinner();
+
                 fetch(`http://localhost:8080/api/category`,{
                     method: "POST",
                     headers:{
@@ -38,22 +60,28 @@ document.addEventListener("DOMContentLoaded", () => {
                         categoryName: categoryValue
                     })
                 }).then(response => response.json())
-                .then(data =>{
+                .then(exist =>{
 
-                    if(data === null){
-                        alert("Category already exist!");
-                        return;
-                    } else {
+                    if(!exist){
                         alert("Category is successfully added.");
                         document.getElementById("txt_categoryName").value = "";
                         loadCategoryData();
-                        console.log(data);
+                        console.log(exist);
+                        return;
+                    } else {
+                        alert("Category already exist!");
+                        document.getElementById("txt_categoryName").value = "";
+                        return;
                     }
                 }).catch(err =>{
+                    hideSpinner();
                     console.error("Error: ",err)
-                    alert("Something went wrong.")
-                } );
+                    alert("Something went wrong.");
+                } ).finally(()=>{
+                    hideSpinner();
+                });
             }
+            hideSpinner();
             // window.location.href = "addUsers.html";
         });
     }
@@ -152,7 +180,6 @@ async function editCategory(id, oldName) {
 
     window.location.href = `updateCategory.html?id=${id}&name=${encodedName}`;
     
-    // performEditImplementation(id, oldName);
 }
 
 
@@ -222,4 +249,10 @@ async function Update(id, Name) {
     } catch (error) {
         console.error(error);
     }
+}
+function showSpinner() {
+    document.getElementById("loadingSpinner_page").style.display = "flex";
+}
+function hideSpinner() {
+    document.getElementById("loadingSpinner_page").style.display = "none";
 }
