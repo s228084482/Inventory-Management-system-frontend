@@ -1,9 +1,7 @@
 let categories = [];
 
 document.addEventListener("DOMContentLoaded", () => {
-
     
-    const row = document.querySelectorAll("#categoryTable tbody tr");
     const btnSearch = document.getElementById("btn_searchCategory");
     
 
@@ -41,11 +39,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     })
                 }).then(response => response.json())
                 .then(data =>{
-                    document.getElementById("txt_categoryName").value = "";
-                    alert("Category is successfully added.");
-                    loadCategoryData();
-                    console.log(data);
-                }).catch(err => console.error("Error: ",err));
+
+                    if(data === null){
+                        alert("Category already exist!");
+                        return;
+                    } else {
+                        alert("Category is successfully added.");
+                        document.getElementById("txt_categoryName").value = "";
+                        loadCategoryData();
+                        console.log(data);
+                    }
+                }).catch(err =>{
+                    console.error("Error: ",err)
+                    alert("Something went wrong.")
+                } );
             }
             // window.location.href = "addUsers.html";
         });
@@ -141,33 +148,61 @@ async function deleteCategory(id) {
 }
 
 async function editCategory(id, oldName) {
-    window.location.href = "updateCategory.html";
-    performEditImplementation(id, oldName);
+    const encodedName = encodeURIComponent(oldName);
+
+    window.location.href = `updateCategory.html?id=${id}&name=${encodedName}`;
+    
+    // performEditImplementation(id, oldName);
 }
-async function performEditImplementation(id, oldName) {
+
+
+document.addEventListener("DOMContentLoaded", async ()=>{
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    const name = params.get("name");
+
+    console.log("ID:", id);
+    console.log("Name:", name);
+
+    const input = document.getElementById("editCatName");
+
+    if (input && name) {
+        input.value = decodeURIComponent(name);
+    }
+
     const categoryUpdateForm = document.getElementById("Category_editForm");
-    categoryUpdateForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const formData = new FormData(event.target);
-        const categoryName = formData.get("categoryName");
+    
 
-        if (categoryName === oldName) {
-            alert("No update made.")
-        } else {
-            Update(id, categoryName);
-        }
+    if(categoryUpdateForm){
+        categoryUpdateForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            try {
+                const formData = new FormData(event.target);
+                const categoryName = formData.get("categoryName");
 
+                if (categoryName === decodeURIComponent(name)) {
+                    alert("No update made.")
+                } else {
+                    Update(id, categoryName);
+                }
+
+
+            } catch (error) {
+                console.error("error");
+                alert("Error occured");
+            }
     });
-
-}
+    }
+});
 
 async function Update(id, Name) {
 
-    const confirmEdit = confirm("Are you sure to edit this category?")
+    const confirmEdit = confirm("Are you sure to edit this category?");
 
     if (!confirmEdit) return;
 
     const category = {
+        id: id,
         categoryName: Name
     }
 
@@ -182,6 +217,7 @@ async function Update(id, Name) {
 
         loadCategoryData();
         alert("Category name updated!");
+        window.location.href = "categories.html";
 
     } catch (error) {
         console.error(error);

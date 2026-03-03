@@ -542,6 +542,15 @@ background-color: #373B47;
     animation: spin 1s linear infinite;
     margin: 20px auto;
 }
+.sinnerBtn{
+    width: 15px;
+    height: 15px;
+    border: 2px solid #ccc;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 2px auto;
+}
 @keyframes spin{
     100% {transform: rotate(360deg);}
 }
