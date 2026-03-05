@@ -117,45 +117,78 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// const productForm = document.getElementById("addProductForm");
-// if (productForm) {
-//     productForm.addEventListener("submit", (event) => {
-//         event.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
 
-//         const formData = new FormData(event.target);
+    const productForm = document.getElementById("addProductForm");
+    if (productForm) {
+        productForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            try {
+                const formData = new FormData(event.target);
 
-//         const productName = formData.get("productName");
-//         const price = formData.get("price");
-//         const quantity = formData.get("quantity");
-//         const description = formData.get("description");
-
-//         console.log(productName, price, quantity, description);
-
-//         fetch("http://localhost:8080/api/products/save", {
-//             method: "POST",
-//             body: formData  
-//         }).then(response => response.text)
-//             .then(result => {
-//                 console.log(result);
-//                 alert("Product saved successfully");
-//             }).catch(err => console.error(err));
-//     });
-// }
+                const productName = formData.get("productName");
+                const price = formData.get("price");
+                const quantity = formData.get("quantity");
+                const description = formData.get("description");
 
 
-// document.getElementById("formProductInfo").addEventListener("submit", (event) => {
-//     event.preventDefault();
+                window.location.href = `product_info.html?productName=${encodeURIComponent(productName)}&price=${encodeURIComponent(price)}&quantity=${encodeURIComponent(quantity)}&description=${encodeURIComponent(description)}`;
 
-//     const dataForm = new dataForm(event.target);
+            } catch (error) {
+                console.error("Error: ", error);
+                alert("Something went wrong, please try again.")
+            }
 
-//     fetch("http://localhost:8080/api/products/saveProductInfo", {
-//         method: "POST",
-//         body: dataForm
-//     }).then(response => response.text)
-//         .then(result => {
-//             console.log(result);
-//             alert("Saved successfully.");
-//         }).catch(err => console.error(err));
+        });
+    }
+});
 
-// });
+document.addEventListener("DOMContentLoaded", ()=>{
+
+    const param = new URLSearchParams(window.location.search);
+
+    const productName = decodeURIComponent(param.get("productName"));
+    const price = decodeURIComponent(param.get("price"));
+    const quantity = decodeURIComponent(param.get("quantity"));
+    const description = decodeURIComponent(param.get("description"));
+
+
+    document.getElementById("formProductInfo").addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const dataForm = new dataForm(event.target);
+    const supplierName = dataForm.get("supplierName");
+    const move = dataForm.get("move");
+    const category_name = dataForm.get("category_name");
+
+    const product_Holder = {
+        productName: productName,
+        price: price,
+        quantity: quantity,
+        description: description,
+        supplierName: supplierName,
+        move: move,
+        category_name: category_name
+    }
+
+    fetch("http://localhost:8080/api/products/save", {
+        method: "POST",
+        body: JSON.stringify(product_Holder)
+    }).then(response => response.text)
+        .then(result => {
+            
+            if (result) {
+                alert("Saved successfully.");
+            }else{
+                alert("Something went wrong, please try again.");
+            }
+            
+        }).catch(err => console.error(err));
+
+});
+
+});
+
+
+
 
