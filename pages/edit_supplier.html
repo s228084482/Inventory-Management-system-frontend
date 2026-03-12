@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Product</title>
+    <link rel="stylesheet" href="style/stylesheet.css" />
+    <link rel="stylesheet" href="style/usersStyle.css" />
+    <link rel="stylesheet" href="style/profileStyle.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <div id="addingProductSectionMain">
+        <div id="edit-product-subAdding">
+            <h1>UPDATE SUPPLIER</h1>
+            <form action="suppliers.html" id="supplier_editForm">
+                <div id="edit-product-hBox">
+                    <div id="edit-product-txt-box">
+                        <input type="text" id="supplier-edit-name" placeholder="Supplier Name" class="user-txtInput" name="supplierName"
+                            required>
+                    </div>
+                    <div id="edit-product-txt-box">
+                        <input type="text" id="supplier-edit-email" placeholder="Supplier Email" class="user-txtInput" name="supplierEmail"
+                            required>
+                    </div>
+                    <div id="edit-product-txt-box">
+                        <input type="number" id="supplier-edit-number" placeholder="Phone Number" class="user-txtInput" name="supplierPhoneNO"
+                            required>
+                    </div>
+
+                </div>
+            </form>
+            <div id="login-hBox-button">
+                <button form="supplier_editForm" type="submit" id="btn_EditSupplier" class="btn_addPro">Edit</button>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script src="Scripts/supplier.js"></script>
+
+</html>

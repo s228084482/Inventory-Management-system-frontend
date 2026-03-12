@@ -1,5 +1,9 @@
+
 let products = [];
+
+//Fetching data from backend.
 async function loadTableData() {
+
     const tableBody = document.getElementById("tableBody");
     const spinner = document.getElementById("loadingSpinner");
     const table = document.getElementById("productTable");
@@ -21,7 +25,7 @@ async function loadTableData() {
 
             spinner.style.display = "none";
             table.style.display = "table";
-            alert(error.message, error.detail);
+            alert(error.message);
             return;
         } else {
             products = await response.json();
@@ -43,9 +47,8 @@ async function loadTableData() {
     }
 
 }
-document.addEventListener("DOMContentLoaded", () => {
-    loadTableData();
-});
+
+//Adding information to a database.
 async function renderPorducts(data) {
 
     const tablebody = document.querySelector("#productTable tbody");
@@ -66,11 +69,12 @@ async function renderPorducts(data) {
                 <td>${product.qty}</td>
                 <td>${product.status}</td>
                 <td>
-                <button class="btn_edit" onclick="editProduct(${product.productId})">
+                <button class="btn_edit" onclick="editProduct(${product.productId},${product.productName},
+                ${product.price},${product.description},${product.qty}
+                )">
                     <i class="fa-solid fa-pen"></i>
                 </button>
-                <button class="btn_delete" onclick="deleteProduct(${product.productId},${product.productName},
-                ${product.price},${product.description},${product.qty},${product.status})">
+                <button class="btn_delete" onclick="deleteProduct(${product.productId})">
                     <i class="fa-solid fa-trash"></i>
                 </button>
                 </td>
@@ -81,48 +85,58 @@ async function renderPorducts(data) {
 
 }
 
-async function editProduct(id,productName,price,desc,gty,status) {
-    
-    window.location.href = `EditProduct.html?id=${id}&productName=${encodeURIComponent(productName)}&price=${encodeURIComponent(price)}&desc=${encodeURIComponent(desc)}&gty=${encodeURIComponent(gty)}&status=${encodeURIComponent(status)}`;
-    // handleEditFunctionality(id, productName);
+//calling EditProduct.html page, and passing some data in URL
+async function editProduct(id,productName,price,desc,gty) {
+    window.location.href = `EditProduct.html?id=${id}&productName=${encodeURIComponent(productName)}&price=${encodeURIComponent(price)}&desc=${encodeURIComponent(desc)}&gty=${encodeURIComponent(gty)}`;
 }
-document.addEventListener("DOMContentLoaded", ()=>{
 
+//This DOM is for editing product page.
+document.addEventListener("DOMContentLoaded", ()=>{
+    doValidation();
+});
+
+//Validating that the information has indeed updated on UI before sending to back end for updating product.
+function doValidation(){
     const param = new URLSearchParams(window.location.search);
     const id = param.get("id");
     const productName = decodeURIComponent(param.get("productName"));
     const price = decodeURIComponent(param.get("price"));
     const desciption = decodeURIComponent(param.get("desc"));
-    const gty = decodeURIComponent(param.get("gty"));
-    const status = decodeURIComponent(param.get("status"));
+    const qty = decodeURIComponent(param.get("gty"));
+
+    document.getElementById("product-edit-productName").value = productName;
+    document.getElementById("product-edit-price").value = price;
+    document.getElementById("product-edit-qty").value = qty;
+    document.getElementById("product-edit-description").value = desciption;
 
     document.getElementById("product_editForm").addEventListener("submit", (event) => {
         event.preventDefault();
 
         const formData = new FormData(event.target);
-        //, , 
+        
         const curProductName = formData.get("productName");
         const curPrice = formData.get("price");
         const curQty = formData.get("quantity");
         const curDescription = formData.get("description");
 
-        if(!(curProductName & curPrice & curQty & curDescription)){
+        if (!(curProductName && curPrice && curQty && curDescription)) {
             alert("Something went wrong.");
             return;
         }
 
-        curProductName.value = productName;
-        curPrice.value = price;
-        curQty.value = gty;
-        curDescription.value = desciption;
-
+        if (curProductName !== productName || curPrice !== price ||
+            curQty !== qty || curDescription !== desciption
+        ) {
+            update(formData, id);
+        }else{
+            alert("No changes made!");
+        }
         
-        update(formData, id);
     });
 
+}
 
-});
-
+//Do updates in DB my communicating with back end for updating a product information.
 async function update(formData, id) {
     try {
 
@@ -133,49 +147,61 @@ async function update(formData, id) {
             description: formData.get("description")
         };
 
-        await fetch(`http://localhost:8080/api/products/${id}`, {
+        const response = await fetch(`http://localhost:8080/api/products/${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(product)
         });
-        loadTableData();
-        alert("Product successfully updated!");
+
+        if(!response.ok){
+            const error = await response.json();
+            alert(error.message);
+            console.error(response);
+            return;
+        }else{
+            loadTableData();
+            alert("Product successfully updated!");
+        }
+        
     } catch (error) {
         console.error(error);
     }
 }
+
+//deleteing product using product id which is a primary key.
 async function deleteProduct(id) {
-    const confirm = confirm("Are you sure to delete this product?");
-    if (confirm) {
+    const confirmDelete = confirm("Are you sure to delete this product?");
+    if (confirmDelete) {
         try {
 
             const response = await fetch(`http://localhost:8080/api/products/${id}`, {
                 method: "DELETE"
             });
 
-            if(!response.ok){
+            if (!response.ok) {
                 const error = await response.json();
                 alert(error.message, error.detail);
                 return;
+            } else {
+                loadTableData();
+                alert("Product is Successfully deleted!")
             }
 
-            loadTableData();
-            alert("Product is Successfully deleted!")
+            
         } catch (error) {
             console.error(error);
         }
     }
 }
 
+//This DOM is for Product.html main page for product usecase.
 document.addEventListener("DOMContentLoaded", () => {
+    loadTableData();
+
     const btn_add = document.getElementById("btn_addProduct");
     const btn_search = document.getElementById("btn_searchProduct");
-
-    const searchValue = document.getElementById("txt_search").value.toLowerCase().trim();;
-    // const row = document.querySelectorAll("#productTable tbody tr");
-
 
     if (btn_add) {
         btn_add.addEventListener("click", () => {
@@ -184,7 +210,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (btn_search) {
-        btn_search.addEventListener("click", () => {
+        searchFunction(btn_search);
+    }
+});
+
+//searching product by name that is provide on the search box. All the matching name are putted on the top while other in the bottom.
+function searchFunction(btn_search){
+    btn_search.addEventListener("click", () => {
+            const searchValue = document.getElementById("txt_search").value.toLowerCase().trim();
+
             try {
                 if (searchValue === "") {
                     alert("Search name is requied!");
@@ -199,16 +233,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 const newList = [...matched, ...notMatched];
                 renderPorducts(newList);
 
-                document.getElementById("txt_search").innerHTML = "";
+                document.getElementById("txt_search").value = "";
                 alert("Note! all matching values will be displayed at the top, otherwise not found.");
 
             } catch (error) {
                 console.error(error);
             }
         });
-    }
-});
+}
 
+//DOM for addproduct.html page.
 document.addEventListener("DOMContentLoaded", () => {
 
     const productForm = document.getElementById("addProductForm");
@@ -235,6 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+//DOM for adding productInfor.html page
 document.addEventListener("DOMContentLoaded", () => {
 
     const param = new URLSearchParams(window.location.search);
@@ -248,7 +283,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("formProductInfo").addEventListener("submit", (event) => {
         event.preventDefault();
 
-        const dataForm = new dataForm(event.target);
+        const dataForm = new FormData(event.target);
+
         const supplierName = dataForm.get("supplierName");
         const move = dataForm.get("move");
         const category_name = dataForm.get("category_name");
@@ -267,11 +303,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         fetch("http://localhost:8080/api/products/save", {
             method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(product_Holder)
-        }).then(response => response.text)
+        }).then(response => response.json())
             .then(result => {
 
-                if (result) {
+                if (result.ok) {
                     alert("Saved successfully.");
                 } else {
                     alert("Something went wrong, please try again.");
@@ -280,8 +319,57 @@ document.addEventListener("DOMContentLoaded", () => {
             }).catch(err => console.error(err));
 
     });
+    // addSuppliersToSelect();
+    addCategoryToSelect();
 
 });
+async function addCategoryToSelect() {
+    const select = document.getElementById("selectorCategory");
+
+    try {
+        const response = await fetch(`http://localhost:8080/api/category/getAllCategoryData`);
+        const results = await response.json();
+        if (!results.ok) {
+            alert(results.message);
+            console.log(results);
+            return;
+        }
+        results.forEach(category =>{
+            const option = document.createElement("option");
+            option.value = category.name
+            option.textContent = category.name
+
+            select.appendChild(option);
+        });
+        
+    } catch (error) {
+        console.error("Error: ", error);
+    }
+}
+
+async function addSuppliersToSelect(){
+    const select = document.getElementById("selectorCategory");
+
+    try {
+        const response = await fetch(`http://localhost:8080/api/suppliers/getAll`);
+        const results = await response.json();
+        if (!results.ok) {
+            alert(results.message);
+            console.log(results);
+            return;
+        }
+        results.forEach(supplier =>{
+            const option = document.createElement("option");
+            option.value = supplier.supplierID;
+            option.textContent = supplier.supplierName;
+
+            select.appendChild(option);
+        });
+        
+    } catch (error) {
+        
+    }
+}
 
 
 
