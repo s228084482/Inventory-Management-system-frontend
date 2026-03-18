@@ -1,5 +1,7 @@
 let suppliers = [];
-async function loadTableData() {
+
+document.addEventListener("DOMContentLoaded", ()=>{
+    async function loadTableData() {
     const tableBody = document.getElementById("tableBody");
     const spinner = document.getElementById("loadingSpinner");
     const table = document.getElementById("supplierTable");
@@ -11,12 +13,16 @@ async function loadTableData() {
 
         const response = await fetch(`http://localhost:8080/api/suppliers/getAll`);
         const results = await response.json();
-        if (!results.ok) {
-            alert(results.message);
-            console.log(results);
-            return;
-        }
+        // if (!results.ok) {
+        //     alert(results.message);
+        //     console.log(results);
+        //     return;
+        // }
         suppliers = results;
+
+        console.log(results);
+        console.log(suppliers);
+
         renderTable(suppliers);
     } catch (error) {
         console.error("Error: ", error);
@@ -34,8 +40,12 @@ async function loadTableData() {
     }
 
 }
+    //loading data to the table.
+    loadTableData();
+});
 
-async function renderTable(results) {
+function renderTable(results) {
+    console.log(results);
 
     const tablebody = document.querySelector("#supplierTable tbody");
     tablebody.innerHTML = "";
@@ -48,8 +58,8 @@ async function renderTable(results) {
                 <td>${data.supplierEmail}</td>
                 <td>${data.supplierPhoneNumber}</td>
                 <td>
-                <button class="btn_edit" onclick="editSupplier(${data.supplierID},${data.supplierName},
-                ${data.supplierEmail},${data.supplierPhoneNumber})">
+                <button class="btn_edit" onclick="editSupplier(${data.supplierID},'${data.supplierName}',
+                '${data.supplierEmail}','${data.supplierPhoneNumber}')">
                     <i class="fa-solid fa-pen"></i>
                 </button>
                 <button class="btn_delete" onclick="deleteSupplier(${data.supplierID})">
@@ -64,8 +74,13 @@ async function renderTable(results) {
 //DOM for supplier main page.
 document.addEventListener("DOMContentLoaded", () => {
 
-    //loading data to the table.
-    loadTableData();
+    const params = new URLSearchParams(window.location.search);
+    const upateTable = params.get("yes");
+
+    if(upateTable === "yes"){
+        loadTableData();
+    }
+    
     const supplierForm = document.getElementById("AddSupplierForm");
     const btn_search = document.getElementById("btn_searchSupplier");
 
@@ -80,8 +95,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function saveSupplier(supplierForm){
+    const spinner = document.getElementById("loadingSpinner");
+    const formDiv = document.getElementById("formDiv");
+
     supplierForm.addEventListener("submit", (event) => {
-            event.preventDefault();
+        event.preventDefault();
+        try {
+            spinner.style.display = "flex";
+            formDiv.style.display = "none";
+            console.log("Spinner");
 
             confirm("Are you sure to add a new supplier.");
 
@@ -92,28 +114,40 @@ function saveSupplier(supplierForm){
                 supplierEmail: dataForm.get("supplierEmail"),
                 supplierNumber: dataForm.get("supplierPhoneNO")
             };
+            console.log(dataForm.get("supplierName"));
+            console.log(dataForm.get("supplierEmail"));
+            console.log(dataForm.get("supplierPhoneNO"));
+            console.log(supplierDTO);
 
             fetch(`http://localhost:8080/api/suppliers/saveSupplier`, {
                 method: "POST",
-                headers:{
+                headers: {
                     "Content-type": "application/json"
                 },
                 body: JSON.stringify(supplierDTO)
-            }
-            ).then(response => response.json())
+            }).then(response => response.json())
                 .then(result => {
-                    if(result.ok){
+                    if (result.ok) {
                         console.log(result);
                         alert("Suplier is Successfully added");
-                    }else{
+                    } else {
                         alert(result.message);
                         console.error(result);
                         return;
                     }
-                    
-                }).catch(err => console.error(err));
 
-        });
+                });
+
+        } catch (error) {
+            console.error(error);
+            spinner.style.display = "none";
+            formDiv.style.display = "flex";
+        } finally {
+            spinner.style.display = "none";
+            formDiv.style.display = "flex";
+        }
+
+    });
 }
 function searchSupplier(btn_search) {
 
@@ -126,89 +160,19 @@ function searchSupplier(btn_search) {
         const orderedSuppliers = [...matched, ...notMatched];
         renderTable(orderedSuppliers);
 
-        document.getElementById("txt_searchSupplier").innerHTML = "";
+        document.getElementById("txt_searchSupplier").value = "";
         alert("Note! all matching values will be displayed at the top, otherwise not found.");
     });
 }
 
-async function editSupplier(id,supplierName,supplierEmail,supplierPhoneNo) {
-    window.location.href = `adit_supplier.html?id=${id}&supplierName=${encodeURIComponent(supplierName)}&
-    supplierEmail=${encodeURIComponent(supplierEmail)}&supplierPhoneNo=${encodeURIComponent(supplierPhoneNo)}`;
+function editSupplier(id,supplierName,supplierEmail,supplierPhoneNo) {
+    window.location.href = `edit_supplier.html?id=${id}&supplierName=${encodeURIComponent(supplierName)}&supplier_Email=${encodeURIComponent(supplierEmail)}&supplierPhoneNo=${encodeURIComponent(supplierPhoneNo)}`;
+    console.log(supplierEmail);
 }
 
-//DOM foredit_suppler.html page.
-document.addEventListener("DOMContentLoaded", ()=>{
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
-    const old_supplierName = params.get("supplierName");
-    const old_supplierEmail = params.get("supplierEmail");
-    const old_supplierPhoneNo = params.get("supplierPhoneNo");
-
-    const supplier_editForm = document.getElementById("supplier_editForm");
-    if(supplier_editForm){
-        supplier_editForm.addEventListener("submit", (event)=>{
-            event.preventDefault();
-
-            try {
-                const dataform = new FormData(event.target);
-                bindInputsElementWithOldValues(old_supplierName, old_supplierEmail, old_supplierPhoneNo);
-
-                //supplierName, supplierEmail, supplierPhoneNO
-                if (old_supplierName === dataform.get("supplierName") && old_supplierEmail === dataform.get("supplierEmail") &&
-                    old_supplierPhoneNo === dataform.get("supplierPhoneNO")) {
-                        alert("There no chnages made!");
-                }else{
-                    const supplier = {
-                        supplierName: dataform.get("supplierName"),
-                        supplierEmail: dataform.get("supplierEmail"),
-                        supplierNumber: dataform.get("supplierPhoneNO")
-                    };
-
-                    updateAtBackend(id,supplier);
-
-                }
-                
-            } catch (error) {
-                console.error(error);
-            }
-            
-        });
-    }
-    
-});
-
-//Binding elements with the old values of data so that user can see what to edit.
-function bindInputsElementWithOldValues(old_supplierName,old_supplierEmail,old_supplierPhoneNo){
-    //, , 
-    document.getElementById("supplier-edit-name").value = old_supplierName;
-    document.getElementById("supplier-edit-email").value = old_supplierEmail;
-    document.getElementById("supplier-edit-number").value = old_supplierPhoneNo;
-}
-async function updateAtBackend(id,supplier) {
-    try {
-        const response = await fetch(`http://localhost:8080/api/suppliers/${id}`,{
-            method: "PUT",
-            headers:{
-                "Content-type": "aaplication/json"
-            },
-            body: JSON.stringify(supplier)
-        });
-
-        const results = response.json();
-        if(!results.ok){
-            alert(results.message);
-            console.log(results);
-            return;
-        }
-
-        loadTableData();
-        alert("Supplier has been successfully updated.");
-    } catch (error) {
-        console.error(error);
-    }
-}
 async function deleteSupplier(id) {
-    const confirm = confirm("Are sure to dele this supplier?");
+    confirm("Are sure to dele this supplier?");
+    
     if(confirm){
         try {
             const response = await fetch(`http://localhost:8080/api/suppliers/${id}`, {

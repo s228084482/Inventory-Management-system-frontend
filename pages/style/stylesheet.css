@@ -510,6 +510,7 @@ background-color: #373B47;
     border-collapse: collapse;
     font-family: Arial, sans-serif;
 }
+
 .table-container {
     max-height: 450px;
     overflow-y: auto;
@@ -528,7 +529,6 @@ background-color: #373B47;
 .categoryTable1 td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
-    height:max-content;
 }
 .categoryTable1 tr{
     height:auto;
@@ -548,6 +548,7 @@ background-color: #373B47;
     justify-content: center;
     align-content: center;
 }
+
 .loading-overlay{
     position: fixed;
     top:0;
@@ -571,4 +572,10 @@ background-color: #373B47;
 }
 @keyframes spin{
     100% {transform: rotate(360deg);}
+}
+#formDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
