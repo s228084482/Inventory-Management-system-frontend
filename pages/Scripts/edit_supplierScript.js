@@ -53,7 +53,12 @@ function bindInputsElementWithOldValues(old_supplierName,old_supplierEmail,old_s
     document.getElementById("supplier-edit-number").value = old_supplierPhoneNo;
 }
 async function updateAtBackend(id,supplier) {
+    const spinner = document.getElementById("loadingSpinner");
+    const main = document.getElementById("edit-product-subAdding");
     try {
+        spinner.style.display = "flex";
+        main.style.display = "none";
+
         const response = await fetch(`http://localhost:8080/api/suppliers/${id}`,{
             method: "PUT",
             headers:{
@@ -73,6 +78,13 @@ async function updateAtBackend(id,supplier) {
         const yes = "yes";
         window.location.href = `suppliers.html?updateTable=${yes}`
     } catch (error) {
+        alert("Something went please try again later.")
         console.error(error);
+        
+        spinner.style.display = "none";
+        main.style.display = "flex";
+    }finally{
+        spinner.style.display = "none";
+        main.style.display = "flex";
     }
 }

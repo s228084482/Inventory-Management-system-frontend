@@ -94,7 +94,13 @@
 
         </article>
         <article id="content">
-            <div class="user-main-content">
+
+            <div id="loadingSpinner" style="display: none;">
+                <div class="spinner">
+                </div>
+            </div>
+
+            <div class="user-main-content" id="user-main_section">
                 <div class="user-top-content">
                     <h1>View Users</h1>
                     <div class="sub-main-top-content">
@@ -103,7 +109,7 @@
                         </div>
                         <div class="search-user-side">
                             <input class="txt-user-search" id="txt_searchUser" type="search"
-                                placeholder="Search by user name">
+                                placeholder="Search by user full name">
                             <button class="btn_styling" id="btn_searchUser">Search</button>
                         </div>
                     </div>

@@ -91,16 +91,16 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadCategoryData() {
     const tableBody = document.getElementById("tableBody");
     const spinner = document.getElementById("loadingSpinner");
-    const table = document.getElementById("categoryTable");
+    const content = document.getElementById("prd-main-div");
 
-    if (!spinner || !table || !tableBody) {
+    if (!spinner || !content || !tableBody) {
         console.error("One or more elements not found in DOM.");
         return;
     }
 
     try {
         spinner.style.display = "flex";
-        table.style.display ="none";
+        content.style.display ="none";
 
         const response = await fetch(`http://localhost:8080/api/category/getAllCategoryData`);
         categories = await response.json();
@@ -113,10 +113,10 @@ async function loadCategoryData() {
         </tr> 
         `;
         spinner.style.display = "none";
-        table.style.display ="table";
+        content.style.display ="flex";
     }finally{
         spinner.style.display = "none";
-        table.style.display ="table";
+        content.style.display ="flex";
     }
     
 }

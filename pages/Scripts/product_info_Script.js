@@ -59,9 +59,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 async function addCategoryToSelect() {
+    const spinner = document.getElementById("loadingSpinner");
+    const main = document.getElementById("product-subAdding");
+
     const select = document.getElementById("selectorCategory");
 
     try {
+        spinner.style.display = "flex";
+        main.style.display = "none";
+
         const response = await fetch(`http://localhost:8080/api/category/getAllCategoryData`);
         const results = await response.json();
 
@@ -85,7 +91,14 @@ async function addCategoryToSelect() {
         });
         
     } catch (error) {
+        alert("Something went wrong, please try again later.");
         console.error("Error: ", error);
+
+        spinner.style.display = "none";
+        main.style.display = "flex";
+    }finally{
+        spinner.style.display = "none";
+        main.style.display = "flex";
     }
 }
 

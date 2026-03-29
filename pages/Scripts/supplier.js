@@ -1,15 +1,14 @@
 let suppliers = [];
 
-document.addEventListener("DOMContentLoaded", ()=>{
-    async function loadTableData() {
+async function loadTableData() {
     const tableBody = document.getElementById("tableBody");
     const spinner = document.getElementById("loadingSpinner");
-    const table = document.getElementById("supplierTable");
+    const supplierMain = document.getElementById("supplierMain");
 
 
     try {
         spinner.style.display = "flex";
-        table.style.display ="none";
+        supplierMain.style.display ="none";
 
         const response = await fetch(`http://localhost:8080/api/suppliers/getAll`);
         const results = await response.json();
@@ -33,16 +32,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
         </tr> 
         `;
         spinner.style.display = "none";
-        table.style.display ="table";
+        supplierMain.style.display ="flex";
     }finally{
         spinner.style.display = "none";
-        table.style.display ="table";
+        supplierMain.style.display ="flex";
     }
 
 }
-    //loading data to the table.
-    loadTableData();
-});
 
 function renderTable(results) {
     console.log(results);
@@ -73,6 +69,7 @@ function renderTable(results) {
 
 //DOM for supplier main page.
 document.addEventListener("DOMContentLoaded", () => {
+    loadTableData();
 
     const params = new URLSearchParams(window.location.search);
     const upateTable = params.get("yes");

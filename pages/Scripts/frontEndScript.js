@@ -1,23 +1,109 @@
 
+document.addEventListener("DOMContentLoaded", ()=>{
+    loadTotalUsers();
+    loadTotalProducts();
+    loadActiveUsers();
+    loadTotalSuppliers();
+});
+
+async function loadTotalUsers() {
+    const spinner = document.getElementById("loadingSpinner");
+    const main = document.getElementById("dashboard-main-decr");
+
+    const lbl_user = document.getElementById("systemUsersNo");
+    lbl_user.innerText = "0";
+    try {
+        spinner.style.display = "flex";
+        main.style.display = "none";
+
+        const response = await fetch("http://localhost:8080/api/users/total");
+        const results = await response.text();
+        lbl_user.innerText = results;
+    } catch (error) {
+        console.error("ERROR ON LOADING TOTAL USERS, DASHBOARD: ", error);
+        spinner.style.display = "none";
+        main.style.display = "flex";
+    }finally{
+        spinner.style.display = "none";
+        main.style.display = "flex";
+    }
+
+}
+
+async function loadTotalProducts() {
+    const spinner = document.getElementById("loadingSpinner");
+    const main = document.getElementById("dashboard-main-decr");
 
 
-// fetch("http://localhost:8080/api/users")
-// .then(respond => respond.json())
-// .then(data =>{
+    const lbl_product = document.getElementById("totalProduct");
+    lbl_product.innerText = "0";
+    try {
+        spinner.style.display = "flex";
+        main.style.display = "none";
 
-// }).catch(error => console.error("Error",error));
+        const response = await fetch("http://localhost:8080/api/products/totalProducts");
+        const total = await response.text();
+        lbl_product.innerText = total;
 
-// // dashboard scripting =================================================
-// // getting all users
-// fetch("http://localhost:8080/api/users/total")
-// .then(response => response.json())
-// .then(total =>{
-//     document.getElementById("systemUsersNo").innerText = total;
-// }).catch(error => console.error(error));
+    } catch (error) {
+        console.error("ERROR ON LOADING TOTAL PRODUCTS, DASHBOARD: ", error);
+        spinner.style.display = "none";
+        main.style.display = "flex";
+    }finally{
+        spinner.style.display = "none";
+        main.style.display = "flex";
+    }
+}
+
+async function loadActiveUsers() {
+    const spinner = document.getElementById("loadingSpinner");
+    const main = document.getElementById("dashboard-main-decr");
 
 
-// fetch("http://localhost:8080/api/users/active")
-// .then(response => response.json())
-// .then(activeUsers =>{
-//     document.getElementById("userNo").innerText = activeUsers;
-// }).catch(error => console.error(error));
+    const lbl_active = document.getElementById("userNo");
+    lbl_active.innerText = "0";
+
+    try {
+        spinner.style.display = "flex";
+        main.style.display = "none";
+
+        const response = await fetch("http://localhost:8080/api/users/active");
+        const active = await response.text();
+        lbl_active.innerText = active;
+
+    } catch (error) {
+        console.error("ERROR ON LOADING ACTIVE USERS: DASHBOARD: ", error);
+        spinner.style.display = "none";
+        main.style.display = "flex";
+    }finally{
+        spinner.style.display = "none";
+        main.style.display = "flex";
+    }
+}
+
+async function loadTotalSuppliers() {
+    const spinner = document.getElementById("loadingSpinner");
+    const main = document.getElementById("dashboard-main-decr");
+
+    const totalSupplier = document.getElementById("totalSuppliers");
+    console.log(totalSupplier);
+    totalSupplier.innerText = "0";
+
+    try {
+        spinner.style.display = "flex";
+        main.style.display = "none";
+
+        const response = await fetch("http://localhost:8080/api/suppliers/totalSuppliers");
+        const total = await response.text();
+        console.log(total);
+        totalSupplier.innerText = total;
+
+    } catch (error) {
+        console.error("ERROR ON LOADING TOTAL SUPPLIERS, DASHBOARD: ", error);
+        spinner.style.display = "none";
+        main.style.display = "flex";
+    }finally{
+        spinner.style.display = "none";
+        main.style.display = "flex";
+    }
+}

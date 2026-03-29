@@ -86,88 +86,8 @@ async function renderPorducts(data) {
 }
 
 //calling EditProduct.html page, and passing some data in URL
-async function editProduct(id,productName,price,desc,gty) {
+async function editProduct(id, productName, price, desc, gty) {
     window.location.href = `EditProduct.html?id=${id}&productName=${encodeURIComponent(productName)}&price=${encodeURIComponent(price)}&desc=${encodeURIComponent(desc)}&gty=${encodeURIComponent(gty)}`;
-}
-
-//This DOM is for editing product page.
-document.addEventListener("DOMContentLoaded", ()=>{
-    doValidation();
-});
-
-//Validating that the information has indeed updated on UI before sending to back end for updating product.
-function doValidation(){
-    const param = new URLSearchParams(window.location.search);
-    const id = param.get("id");
-    const productName = decodeURIComponent(param.get("productName"));
-    const price = decodeURIComponent(param.get("price"));
-    const desciption = decodeURIComponent(param.get("desc"));
-    const qty = decodeURIComponent(param.get("gty"));
-
-    document.getElementById("product-edit-productName").value = productName;
-    document.getElementById("product-edit-price").value = price;
-    document.getElementById("product-edit-qty").value = qty;
-    document.getElementById("product-edit-description").value = desciption;
-
-    document.getElementById("product_editForm").addEventListener("submit", (event) => {
-        event.preventDefault();
-
-        const formData = new FormData(event.target);
-        
-        const curProductName = formData.get("productName");
-        const curPrice = formData.get("price");
-        const curQty = formData.get("quantity");
-        const curDescription = formData.get("description");
-
-        if (!(curProductName && curPrice && curQty && curDescription)) {
-            alert("Something went wrong.");
-            return;
-        }
-
-        if (curProductName !== productName || curPrice !== price ||
-            curQty !== qty || curDescription !== desciption
-        ) {
-            update(formData, id);
-        }else{
-            alert("No changes made!");
-        }
-        
-    });
-
-}
-
-//Do updates in DB my communicating with back end for updating a product information.
-async function update(formData, id) {
-    try {
-
-        const product = {
-            productName: formData.get("productName"),
-            price: formData.get("price"),
-            quantity: formData.get("quantity"),
-            description: formData.get("description")
-        };
-
-        const response = await fetch(`http://localhost:8080/api/products/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(product)
-        });
-
-        if(!response.ok){
-            const error = await response.json();
-            alert(error.message);
-            console.error(response);
-            return;
-        }else{
-            loadTableData();
-            alert("Product successfully updated!");
-        }
-        
-    } catch (error) {
-        console.error(error);
-    }
 }
 
 //deleteing product using product id which is a primary key.
@@ -189,7 +109,7 @@ async function deleteProduct(id) {
                 alert("Product is Successfully deleted!")
             }
 
-            
+
         } catch (error) {
             console.error(error);
         }
@@ -215,31 +135,31 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 //searching product by name that is provide on the search box. All the matching name are putted on the top while other in the bottom.
-function searchFunction(btn_search){
+function searchFunction(btn_search) {
     btn_search.addEventListener("click", () => {
-            const searchValue = document.getElementById("txt_search").value.toLowerCase().trim();
+        const searchValue = document.getElementById("txt_search").value.toLowerCase().trim();
 
-            try {
-                if (searchValue === "") {
-                    alert("Search name is requied!");
-                    return;
-                }
-                if (!searchValue) {
-                    renderPorducts(products);
-                }
-
-                const matched = products.filter(prod => prod.productName.toLowerCase().includes(searchValue));
-                const notMatched = products.filter(prod => !prod.productName.toLowerCase().includes(searchValue));
-                const newList = [...matched, ...notMatched];
-                renderPorducts(newList);
-
-                document.getElementById("txt_search").value = "";
-                alert("Note! all matching values will be displayed at the top, otherwise not found.");
-
-            } catch (error) {
-                console.error(error);
+        try {
+            if (searchValue === "") {
+                alert("Search name is requied!");
+                return;
             }
-        });
+            if (!searchValue) {
+                renderPorducts(products);
+            }
+
+            const matched = products.filter(prod => prod.productName.toLowerCase().includes(searchValue));
+            const notMatched = products.filter(prod => !prod.productName.toLowerCase().includes(searchValue));
+            const newList = [...matched, ...notMatched];
+            renderPorducts(newList);
+
+            document.getElementById("txt_search").value = "";
+            alert("Note! all matching values will be displayed at the top, otherwise not found.");
+
+        } catch (error) {
+            console.error(error);
+        }
+    });
 }
 
 
