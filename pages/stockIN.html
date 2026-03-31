@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Increment products</title>
+    <link rel="stylesheet" href="style/stylesheet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <div id="addingProductSectionMain">
+        <div id="loadingSpinner_page" class="loading-overlay">
+            <div class="spinner-page"></div>
+        </div>
+        <div id="subAddingIncreament">
+            <h1 class="increamentH1">Increment products</h1>
+            <form method="get" id="stockInForm">
+                <div id="hBox">
+                    <div id="txt-box">
+                        <select class="txtInputSelector" id="selectorStockIn" name="product_name" required>
+                            <option value="">Select Product</option>
+                
+                        </select>
+                    </div>
+                
+                </div>
+
+
+                <div id="hBox">
+                    <div id="txt-box">
+                        <input type="number" placeholder="Quantity In" class="txtInput" name="quantity" required>
+                    </div>
+                </div>
+
+            </form>
+
+            <div id="hBox-button">
+                <button form="stockInForm" type="submit" id="btn_In" class="btn_addPro">Stock In</button>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script src="Scripts/stockMovement.js"></script>
+</html>

@@ -2,7 +2,7 @@ const data = [
     { status: "OutStoock", productName: "CookieChangeEvent", quantity: 54, date: "2026/02/22" },
     { status: "OutStoock", productName: "CookieChangeEvent", quantity: 54, date: "2026/02/22" },
     { status: "OutStoock", productName: "CookieChangeEvent", quantity: 54, date: "2026/02/22" },
-    { status: "OutStoock", productName: "CookieChangeEvent", quantity: 54, date: "2026/02/22" },
+    { status: "OutStoock", productName: "CookieChangeEvent", quantity: 54, date: "2026/02/22" }
 ];
 populateTable(data);
 
@@ -15,6 +15,23 @@ populateTable(data);
 //         console.error(error);
 //     }
 // }
+
+document.addEventListener("DOMContentLoaded", ()=>{
+    const btn_in = document.getElementById("btn_in");
+    const btn_out = document.getElementById("btn_Out");
+
+    if(btn_in){
+        btn_in.addEventListener("click", ()=>{
+            window.location.href = "stockIN.html";
+        });
+    }
+
+    if(btn_out){
+        btn_out.addEventListener("click", ()=>{
+            window.location.href = "stockOUT.html";
+        });
+    }
+});
 
 
 function populateTable(data) {
