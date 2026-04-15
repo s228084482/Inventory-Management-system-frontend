@@ -39,49 +39,49 @@
                 <nav>
                     <ul class="nav-list">
                         <li>
-                            <a href="dashboard.html">
+                            <a href="dashboard.html" onclick="return checkAuth()">
                                 <i class="fa-solid fa-chart-line"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
 
                         <li>
-                            <a href="products.html">
+                            <a href="products.html" onclick="return checkAuth()">
                                 <i class="fa-solid fa-box"></i>
                                 <span>Products</span>
                             </a>
                         </li>
 
                         <li>
-                            <a href="categories.html">
+                            <a href="categories.html" onclick="return checkAuth()">
                                 <i class="fa-solid fa-layer-group"></i>
                                 <span>Categories</span>
                             </a>
                         </li>
 
                         <li>
-                            <a href="suppliers.html">
+                            <a href="suppliers.html" onclick="return checkAuth()">
                                 <i class="fa-solid fa-truck"></i>
                                 <span>Suppliers</span>
                             </a>
                         </li>
 
                         <li>
-                            <a href="stock.html">
+                            <a href="stock.html" onclick="return checkAuth()">
                                 <i class="fa-solid fa-warehouse"></i>
                                 <span>Stock</span>
                             </a>
                         </li>
 
                         <li>
-                            <a href="users.html">
+                            <a href="users.html" onclick="return checkAuth()">
                                 <i class="fa-solid fa-users"></i>
                                 <span>Users</span>
                             </a>
                         </li>
 
                         <li class="logout">
-                            <a href="#">
+                            <a href="#" onclick="logout()">
                                 <i class="fa-solid fa-right-from-bracket"></i>
                                 <span>Logout</span>
                             </a>
@@ -177,6 +177,7 @@
         </article>
     </section>
     <script src="Scripts/supplier.js"></script>
+    <script src="Scripts/logout.js"></script>
 </body>
 
 </html>

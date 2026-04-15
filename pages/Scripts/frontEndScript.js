@@ -94,7 +94,12 @@ async function loadTotalSuppliers() {
         main.style.display = "none";
 
         const response = await fetch("http://localhost:8080/api/suppliers/totalSuppliers");
+       
         const total = await response.text();
+        // if(!total.ok){
+        //     totalSupplier.innerText = "0";
+        //     return;
+        // }
         console.log(total);
         totalSupplier.innerText = total;
 

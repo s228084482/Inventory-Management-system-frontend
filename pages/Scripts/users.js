@@ -1,13 +1,13 @@
 const Users = [];
 
-document.addEventListener("DOMContentLoaded", () => {
-    const btn_editProfile = document.getElementById("btn_editProfile");
-    if (btn_editProfile) {
-        btn_editProfile.addEventListener("click", () => {
-            window.location.href = "EditUser.html";
-        });
-    }
-});
+// document.addEventListener("DOMContentLoaded", () => {
+//     const btn_editProfile = document.getElementById("btn_editProfile");
+//     if (btn_editProfile) {
+//         btn_editProfile.addEventListener("click", () => {
+//             window.location.href = "EditUser.html";
+//         });
+//     }
+// });
 
 // avoiding a script to run before DOM loads
 document.addEventListener("DOMContentLoaded", () => {
@@ -45,16 +45,25 @@ function doSearching() {
             console.log("Seach element isn't found.");
             return;
         }
+        Users.find(user =>{
+            console.log(typeof(user.fullName.toLowerCase().includes(searchValue)));
+            if(user.fullName.toLowerCase().includes(searchValue)){
+                alert("User found, check it at the top.");
+            }else{
+                 alert("User not found.");
+                 return;
+            }
+        });
 
-        const sorted = Users.filter(user => user.fullName.toLowerCase().includes(searchValue));
-        const notSorted = Users.filter(u => !u.fullName.toLowerCase().includes(searchValue));
+        // const sorted = Users.filter(user => user.fullName.toLowerCase().includes(searchValue));
+        // const notSorted = Users.filter(u => !u.fullName.toLowerCase().includes(searchValue));
 
-        const sortedList = [...sorted, ...notSorted];
-        displayUsers(sortedList);
+        // const sortedList = [...sorted, ...notSorted];
+        // displayUsers(sortedList);
 
 
-        document.getElementById("txt_searchUser").innerHTML = "";
-        alert("Note! all matching values will be displayed at the top, otherwise not found.");
+        document.getElementById("txt_searchUser").value = "";
+        // alert("Note! all matching values will be displayed at the top, otherwise not found.");
     } catch (error) {
         console.error(error);
     }
@@ -69,13 +78,12 @@ async function loadTable() {
         content.style.display = "none";
 
         const response = await fetch("http://localhost:8080/api/users/getAllUsers");
-        const results = await response.json();
-
-        if (!results.ok) {
+         if (!response.ok) {
             alert(results.message);
             console.log(results);
             return;
         }
+        const results = await response.json();
 
         displayUsers(results);
 
@@ -90,96 +98,76 @@ async function loadTable() {
     }
 }
 
-async function displayUsers(user) {
-     const tablebody = document.querySelector("#UserTable tbody");
-            tablebody.innerHTML = "";
+function displayUsers(users) {
+    const tablebody = document.querySelector("#UserTable tbody");
+    tablebody.innerHTML = "";
 
-            user.forEach(data => {
-                const row = document.createElement("tr");
+    for (let i = 0; i < users.length; i += 2) {
 
-                row.innerHTML = `
-            <td> 
-            <div class="user-container">
-                        <div id="user-subBox">
+        const user1 = users[i];
+        const user2 = users[i + 1]; // next user
 
-                            <div class="sub-box-top">
-                                <div id="user-imageBox">
+        const row = document.createElement("tr");
 
-                                </div>
-                                <div class="user-info">
-                                    <p id="txt-user">${data.fullName}</p>
-                                    <p id="txt-user">${data.email}</p>
-                                    <p id="txt-user">${data.role}</p>
-                                </div>
-                            </div>
+        row.innerHTML = `
+        <td>
+            ${user1 ? createUserCard(user1) : ""}
+        </td>
 
-                            <div>
-                                <p id="user-number">${data.phoneUmber}</p>
-                                <p id="user-experience">${data.eperience}</p>
-                            </div>
+        <td>
+            ${user2 ? createUserCard(user2) : ""}
+        </td>
+        `;
 
-                            <div id="viewDetails" class="btn-container">
+        tablebody.appendChild(row);
+    }
+}
+function createUserCard(data){
+    return `
+    <div class="user-container">
+        <div id="user-subBox">
 
-                                <button class="btn_edit" onclick="editUser(${data.userId}, ${data.fullName},
-                                ${data.email},${data.phoneUmber}, ${data.eperience})">
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-                                <button class="btn_delete" onclick="deleteUser(${data.userId})">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </div>
+            <div class="sub-box-top">
+                <div id="user-imageBox">
+                    <i class="fa-solid fa-user"></i>
+                </div>
 
-                        </div>
-                    </div>
+                <div class="user-info">
+                    <p class="txt-user">${data.fullName}</p>
+                    <p class="txt-user">${data.email}</p>
+                    <p class="txt-user">${data.role}</p>
+                </div>
+            </div>
 
-            </td>
+            <div>
+                <p id="user-number">${data.phoneUmber}</p>
+                <p id="user-experience">${data.experience}</p>
+            </div>
 
-            <td> 
-             <div class="user-container">
-                        <div id="user-subBox">
+            <div id="viewDetails" class="btn-container">
+                <button class="btn_edit" onclick="editUser(${data.userId}, '${data.fullName}', '${data.email}','${data.phoneUmber}', '${data.experience}')">
+                    <i class="fa-solid fa-pen">Edit</i>
+                </button>
 
-                            <div class="sub-box-top">
-                                <div id="user-imageBox">
+                <button class="btn_delete" onclick="deleteUser(${data.userId})">
+                    <i class="fa-solid fa-trash">Delete</i>
+                </button>
+            </div>
 
-                                </div>
-                                <div class="user-info">
-                                    <p class="txt-user">${data.fullName}</p>
-                                    <p class="txt-user">${data.email}</p>
-                                    <p class="txt-user">${data.role}</p>
-                                </div>
-                            </div>
-
-                            <div>
-                                <p id="user-number">${data.phoneUmber}</p>
-                                <p id="user-experience">${data.experience}</p>
-                            </div>
-
-                            <div id="viewDetails" class="btn-container">
-
-                                <button class="btn_edit" onclick="editUser(${data.userId}, ${data.fullName},
-                                ${data.email},${data.phoneUmber}, ${data.eperience})">
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-                                <button class="btn_delete" onclick="deleteUser(${data.userId})">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </div>
-
-                        </div>
-                    </div>
-            </td>
-            `;
-                tablebody.appendChild(row);
-            });
+        </div>
+    </div>
+    `;
 }
 
-async function editUser(id, fullName, email, number, experience) {
+function editUser(id, fullName, email, number, experience) {
+    console.log(experience);
+    console.log(encodeURIComponent(experience));
     window.location.href = `EditUser.html?id=${id}&fullName=${encodeURIComponent(fullName)}&email=${encodeURIComponent(email)}&phoneNumber=${encodeURIComponent(number)}&experience=${encodeURIComponent(experience)}`;
 }
 async function deleteUser(id) {
-    const confirm = confirm("Are you sure to delete this user?");
+    
 
-    if (confirm) {
+    if (confirm("Are you sure to delete this user?")) {
         try {
             const response = await fetch(`http://localhost:8080/api/users/${id}`, {
                 method: "DELETE"
@@ -195,7 +183,7 @@ async function deleteUser(id) {
             alert("User is Successfully deleted!");
 
         } catch (error) {
-            console.error(error);
+            console.error("ERROR IN DELETE METHOD: =",error);
         }
     }
 }

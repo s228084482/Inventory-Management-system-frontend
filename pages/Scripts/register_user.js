@@ -24,11 +24,13 @@ async function RegisterUser() {
 }
 
 async function insertUser(UserDTO) {
-    const spinner = document.getElementById("loadingSpinner");
-    const main = document.getElementById("user-subAdding");
+    console.log("THis is a user object: ",UserDTO);
+
+    // const spinner = document.getElementById("loadingSpinner");
+    // const main = document.getElementById("user-subAdding");
     try {
-        spinner.style.display = "flex";
-        main.style.display = "none";
+        // spinner.style.display = "flex";
+        // main.style.display = "none";
 
         const response = await fetch("http://localhost:8080/api/users/saveUser", {
             method: "POST",
@@ -40,7 +42,7 @@ async function insertUser(UserDTO) {
         );
 
         const results = await response.json();
-        if (!results.ok) {
+        if (results.ok) {
             alert(results.message);
             console.log(results);
             return;
@@ -53,11 +55,11 @@ async function insertUser(UserDTO) {
         alert("Something went wrong please try again later.");
         
         console.error("ERROR: ", error);
-        spinner.style.display = "none";
-        main.style.display = "flex";
+        // spinner.style.display = "none";
+        // main.style.display = "flex";
     }finally{
-        spinner.style.display = "none";
-        main.style.display = "flex";
+        // spinner.style.display = "none";
+        // main.style.display = "flex";
     }
     
 }

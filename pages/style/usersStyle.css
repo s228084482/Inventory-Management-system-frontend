@@ -75,15 +75,19 @@
     margin-top: 30px;
 }
 .btn_edit{    
-    width: 40px;
-    height: 25px;                                  
+    cursor: pointer;
+    padding: 6px;
+    width: 90px;
+    height: 30px;                                  
     background-color: rgb(60, 83, 145);
     border: 1.5px solid #EEE1E1;
     margin-right: 8px;
 }
 .btn_delete{
-    width: 40px;
-    height: 25px;
+    cursor: pointer;
+    padding: 6px;
+    width: 90px;
+    height: 30px;
     background-color: rgb(194, 18, 18);
     border: 1.5px solid #EEE1E1;
 }
@@ -95,7 +99,7 @@
 }
 #user-subBox {
     border: #EEE1E1 solid 1px;
-    width: 400px;
+    width: 500px;
     height: 200px;
     border-radius: 14px;
     padding: 10px;
@@ -120,6 +124,12 @@
     border-radius: 8px;
     margin-bottom: 8px;
     margin-right: 6px;
+    color: rgb(25, 199, 77);
+    font-size: 60px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .sub-box-top{
     display: flex;

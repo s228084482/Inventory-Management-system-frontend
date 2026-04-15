@@ -32,6 +32,7 @@ function bindElements(params) {
     const email = decodeURIComponent(params.get("email"));
     const phoneNumber = decodeURIComponent(params.get("phoneNumber"));
     const experience = decodeURIComponent(params.get("experience"));
+    console.log(decodeURIComponent(params.get("experience")));
 
     document.getElementById("fullName").value = fullName;
     document.getElementById("email").value = email;
@@ -41,7 +42,12 @@ function bindElements(params) {
 
 async function doUpdate(id, formData) {
 
+    const spinner = document.getElementById("loadingSpinner");
+    const content = document.getElementById("edit-profile-subAdding");
+
     try {
+        spinner.style.display = "flex";
+        content.style.display = "none";
 
         const user = {
             fullName: formData.get("fullName"),
@@ -58,18 +64,22 @@ async function doUpdate(id, formData) {
             body: JSON.stringify(user)
         }
         );
-
-        const results = await response.json();
-        if(!results.ok){
-            alert(results.message);
+        if(!response.ok){
+            const results = await response.json();
+             alert(results.message);
             console.log(results);
             return;
+        }else{
+            alert("User has been successfully updated.");
+            window.location.href = "users.html";
         }
-
-        alert("User has been successfully updated.");
-        window.location.href = "users.html";
 
     } catch (error) {
         console.error(error);
+         spinner.style.display = "none";
+        content.style.display = "flex";
+    }finally{
+         spinner.style.display = "none";
+        content.style.display = "flex";
     }
 }
