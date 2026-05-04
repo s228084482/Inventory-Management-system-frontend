@@ -21,8 +21,7 @@ async function loadTableData() {
 
         console.log(results);
         console.log(suppliers);
-
-        renderTable(suppliers);
+        renderTable(suppliers.sort((a,b) => a.supplierName.localeCompare(b.supplierName)));
     } catch (error) {
         console.error("Error: ", error);
 
@@ -91,60 +90,65 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-function saveSupplier(supplierForm){
-    const spinner = document.getElementById("loadingSpinner");
-    const formDiv = document.getElementById("formDiv");
+async function saveSupplier(supplierForm){
 
     supplierForm.addEventListener("submit", (event) => {
         event.preventDefault();
-        try {
-            spinner.style.display = "flex";
-            formDiv.style.display = "none";
-            console.log("Spinner");
 
-            confirm("Are you sure to add a new supplier.");
+        confirm("Are you sure to add a new supplier.");
 
-            const dataForm = new FormData(event.target);
-            //supplierName, supplierPhoneNO, supplierEmail
-            const supplierDTO = {
-                supplierName: dataForm.get("supplierName"),
-                supplierEmail: dataForm.get("supplierEmail"),
-                supplierNumber: dataForm.get("supplierPhoneNO")
-            };
-            console.log(dataForm.get("supplierName"));
-            console.log(dataForm.get("supplierEmail"));
-            console.log(dataForm.get("supplierPhoneNO"));
-            console.log(supplierDTO);
+        const dataForm = new FormData(event.target);
+        //supplierName, supplierPhoneNO, supplierEmail
+        const supplierDTO = {
+            supplierName: dataForm.get("supplierName"),
+            supplierEmail: dataForm.get("supplierEmail"),
+            supplierNumber: dataForm.get("supplierPhoneNO")
+        };
+        console.log(dataForm.get("supplierName"));
+        console.log(dataForm.get("supplierEmail"));
+        console.log(dataForm.get("supplierPhoneNO"));
+        console.log(supplierDTO);
 
-            fetch(`http://localhost:8080/api/suppliers/saveSupplier`, {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json"
-                },
-                body: JSON.stringify(supplierDTO)
-            }).then(response => response.json())
-                .then(result => {
-                    if (result.ok) {
-                        console.log(result);
-                        alert("Suplier is Successfully added");
-                    } else {
-                        alert(result.message);
-                        console.error(result);
-                        return;
-                    }
+        saveSupplieerToDB(supplierDTO);
+    });
+}
+async function saveSupplieerToDB(supplierDTO) {
+    const spinner = document.getElementById("loadingSpinner");
+    const formDiv = document.getElementById("formDiv");
+    try {
+        spinner.style.display = "flex";
+        formDiv.style.display = "none";
+        console.log("Spinner");
 
-                });
+        const response = await fetch(`http://localhost:8080/api/suppliers/saveSupplier`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(supplierDTO)
+        });
 
-        } catch (error) {
-            console.error(error);
-            spinner.style.display = "none";
-            formDiv.style.display = "flex";
-        } finally {
-            spinner.style.display = "none";
-            formDiv.style.display = "flex";
+        const results = await response.json();
+        if (!response.ok) {
+            reportOutComes("",results.message,"");
+            console.error(results);
+            return;
         }
 
-    });
+        console.log(results);
+        reportOutComes("","Suplier is Successfully added","Information");
+
+        loadTableData();
+
+    } catch (error) {
+        console.error(error);
+        spinner.style.display = "none";
+        formDiv.style.display = "flex";
+    } finally {
+        spinner.style.display = "none";
+        formDiv.style.display = "flex";
+    }
+    
 }
 function searchSupplier(btn_search) {
 
@@ -154,11 +158,16 @@ function searchSupplier(btn_search) {
         const matched = suppliers.filter(sup => sup.supplierName.toLowerCase().includes(searchValue));
         const notMatched = suppliers.filter(sup => !sup.supplierName.toLowerCase().includes(searchValue));
 
+        if(Array.isArray(matched) && matched.length === 0){
+            reportOutComes("","Supplier not found","Information");
+            document.getElementById("txt_searchSupplier").value = "";
+            return;
+        }
         const orderedSuppliers = [...matched, ...notMatched];
         renderTable(orderedSuppliers);
 
         document.getElementById("txt_searchSupplier").value = "";
-        alert("Note! all matching values will be displayed at the top, otherwise not found.");
+        // alert("Note! all matching values will be displayed at the top, otherwise not found.");
     });
 }
 
@@ -179,13 +188,39 @@ async function deleteSupplier(id) {
             const result = await response.json();
             if(result.ok){
                 loadTableData();
-                alert("Supplier has been successfully deleted.")
+                reportOutComes("","Supplier has been successfully deleted.","");
             }else{
-                alert("Something went wrong, please try again.");
+                reportOutComes("","Something went wrong, please try again.","");
                 return;
             }
         } catch (error) {
             console.error(error);
         }
     }
+}
+
+function DoCloses() {
+    document.getElementById("close-btn").addEventListener("click", () => {
+        document.getElementById("popup").style.display = "none";
+    });
+
+    window.onclick = function (event) {
+        let popup = document.getElementById("popup");
+        if (event.target === popup) {
+            popup.style.display = "none";
+        }
+    }
+}
+function reportOutComes(error,message,type) {
+    document.getElementById("popup").style.display = "block";
+
+    if(message !== "")
+        document.getElementById("popup-message").innerText = message;
+    if(type !== "")
+        document.getElementById("popup-title").innerText = type;
+
+    if(error !== "")
+        console.error("ERROR ", error);
+
+    DoCloses();
 }

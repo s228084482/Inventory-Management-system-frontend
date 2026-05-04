@@ -1,5 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", ()=>{
+    //  toast.error("Error occured. ");
     loadTotalUsers();
     loadTotalProducts();
     loadActiveUsers();
@@ -104,11 +105,33 @@ async function loadTotalSuppliers() {
         totalSupplier.innerText = total;
 
     } catch (error) {
-        console.error("ERROR ON LOADING TOTAL SUPPLIERS, DASHBOARD: ", error);
-        spinner.style.display = "none";
-        main.style.display = "flex";
-    }finally{
-        spinner.style.display = "none";
-        main.style.display = "flex";
+        handleError(error);
+    } finally {
+        DoCloses();
     }
+}
+
+function DoCloses() {
+    document.getElementById("close-btn").addEventListener("click", () => {
+        document.getElementById("popup").style.display = "none";
+    });
+
+    window.onclick = function (event) {
+        let popup = document.getElementById("popup");
+        if (event.target === popup) {
+            popup.style.display = "none";
+        }
+    }
+
+    spinner.style.display = "none";
+    main.style.display = "flex";
+}
+function handleError(error) {
+    document.getElementById("popup").style.display = "block";
+    document.getElementById("popup-title").innerText = "Error";
+    document.getElementById("popup-message").innerText = "Something went wrong while loading data.";
+
+    console.error("ERROR ON LOADING TOTAL SUPPLIERS, DASHBOARD: ", error);
+    spinner.style.display = "none";
+    main.style.display = "flex";
 }

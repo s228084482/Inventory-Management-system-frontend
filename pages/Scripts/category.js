@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const searchValue = document.getElementById("txt_searchCategory").value.toLowerCase().trim();
                 if (searchValue === "") {
-                    alert("Search value is required!");
+                    reportOutComes("","Search value is required!","");
                     return;
                 }
                 if (!searchValue) {
@@ -23,12 +23,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 const matched = categories.filter(cat => cat.name.toLowerCase().includes(searchValue));
                 const notMached = categories.filter(cat => !cat.name.toLowerCase().includes(searchValue));
                 const reorder = [...matched, ...notMached];
+
+                if(Array.isArray(matched) && matched.length === 0){
+                    reportOutComes("","No matching values.","");
+                    document.getElementById("txt_searchCategory").value = "";
+                    return;
+                }
+
                 renderCategories(reorder);
                 document.getElementById("txt_searchCategory").value = "";
-                alert("Note! all matching values will be displayed at the top, otherwise not found.")
+                reportOutComes("", "Find matching values at the top.","Information");
             } catch (error) {
                 hideSpinner();
-                alert("Something went wrong!");
+                // alert("Something went wrong!");
                 console.error("Error: ", error);
             } finally {
                 hideSpinner();
@@ -44,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn_addCadtegory.addEventListener("click", ()=>{
             const categoryValue = document.getElementById("txt_categoryName").value;
             if(categoryValue === ""){
-                alert("Category name is required!");
+                reportOutComes("", "Category name is required!","");
                 return;
             }
 
@@ -69,14 +76,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         console.log(exist);
                         return;
                     } else {
-                        alert("Category already exist!");
+                        reportOutComes("","Category already exist!","Information");
                         document.getElementById("txt_categoryName").value = "";
                         return;
                     }
                 }).catch(err =>{
                     hideSpinner();
-                    console.error("Error: ",err)
-                    alert("Something went wrong.");
+                    console.error("Error: ",err);
+                    // alert("Something went wrong.");
                 } ).finally(()=>{
                     hideSpinner();
                 });
@@ -87,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
 
 async function loadCategoryData() {
     const tableBody = document.getElementById("tableBody");
@@ -104,7 +112,7 @@ async function loadCategoryData() {
 
         const response = await fetch(`http://localhost:8080/api/category/getAllCategoryData`);
         categories = await response.json();
-        renderCategories(categories);
+        renderCategories(categories.sort((a,b) => a.name.localeCompare(b.name)));
     } catch (error) {
         console.error(error);
         tableBody.innerHTML = `
@@ -121,6 +129,8 @@ async function loadCategoryData() {
     
 }
 document.addEventListener("DOMContentLoaded", () => {
+    
+
     loadCategoryData();
 });
 
@@ -166,7 +176,7 @@ async function deleteCategory(id) {
             });
 
             loadCategoryData();
-            alert("Cetegory deleted!");
+            reportOutComes("","Cetegory has been successfully deleted!","Information")
 
         } catch (error) {
             console.error(error)
@@ -208,7 +218,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
                 const categoryName = formData.get("categoryName");
 
                 if (categoryName === decodeURIComponent(name)) {
-                    alert("No update made.")
+                    reportOutComes("", "No update made.", "");
                 } else {
                     Update(id, categoryName);
                 }
@@ -216,7 +226,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
 
             } catch (error) {
                 console.error("error");
-                alert("Error occured");
+                // alert("Error occured");
             }
     });
     }
@@ -226,33 +236,70 @@ async function Update(id, Name) {
 
     const confirmEdit = confirm("Are you sure to edit this category?");
 
-    if (!confirmEdit) return;
+    if (confirmEdit) {
+        const category = {
+            id: id,
+            categoryName: Name
+        }
 
-    const category = {
-        id: id,
-        categoryName: Name
+        try {
+            const response = await fetch(`http://localhost:8080/api/category/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(category)
+            });
+
+            console.log("Started to check response.");
+            if (!response.ok) {
+                console.log("Response is not ok.");
+                reportOutComes("", "Something went wrong while updating category", "Information");
+                return;
+            } else {
+                reportOutComes("", "Category has been successfully updated!", "Information");
+                
+                setTimeout(() => {
+                    window.location.href = "categories.html";
+                }, 3000);
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
     }
 
-    try {
-        await fetch(`http://localhost:8080/api/category/${id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(category)
-        });
-
-        loadCategoryData();
-        alert("Category name updated!");
-        window.location.href = "categories.html";
-
-    } catch (error) {
-        console.error(error);
-    }
+    
 }
 function showSpinner() {
     document.getElementById("loadingSpinner_page").style.display = "flex";
 }
 function hideSpinner() {
     document.getElementById("loadingSpinner_page").style.display = "none";
+}
+
+function DoCloses() {
+    document.getElementById("close-btn").addEventListener("click", () => {
+        document.getElementById("popup").style.display = "none";
+    });
+
+    window.onclick = function (event) {
+        let popup = document.getElementById("popup");
+        if (event.target === popup) {
+            popup.style.display = "none";
+        }
+    }
+}
+function reportOutComes(error,message,type) {
+    document.getElementById("popup").style.display = "block";
+
+    if(message !== "")
+        document.getElementById("popup-message").innerText = message;
+    if(type !== "")
+        document.getElementById("popup-title").innerText = type;
+
+    if(error !== "")
+        console.error("ERROR ", error);
+
+    DoCloses();
 }

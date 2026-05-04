@@ -25,15 +25,15 @@ async function loadTableData() {
 
             spinner.style.display = "none";
             table.style.display = "table";
-            alert(error.message);
+            reportOutComes("",error.message,"");
             return;
         } else {
             products = await response.json();
-            renderPorducts(products);
+            renderPorducts(products.sort((a,b) => a.productName.localeCompare(b.productName)));
         }
 
     } catch (error) {
-        console.error(error);
+        reportOutComes(error, "Error loading data", "");
         tableBody.innerHTML = `
         <tr>
         <td colspan="4">Error loading data</td>
@@ -53,7 +53,7 @@ async function renderPorducts(data) {
 
     const tablebody = document.querySelector("#productTable tbody");
     if (!tablebody) {
-        console.error("Table notfound.");
+        reportOutComes("","Table notfound.","");
         return;
     }
 
@@ -69,9 +69,7 @@ async function renderPorducts(data) {
                 <td>${product.qty}</td>
                 <td>${product.status}</td>
                 <td>
-                <button class="btn_edit" onclick="editProduct(${product.productId},${product.productName},
-                ${product.price},${product.description},${product.qty}
-                )">
+                <button class="btn_edit" onclick="editProduct(${product.productId},'${product.productName}',${product.price},'${product.description}',${product.qty})">
                     <i class="fa-solid fa-pen"></i>
                 </button>
                 <button class="btn_delete" onclick="deleteProduct(${product.productId})">
@@ -86,8 +84,8 @@ async function renderPorducts(data) {
 }
 
 //calling EditProduct.html page, and passing some data in URL
-async function editProduct(id, productName, price, desc, gty) {
-    window.location.href = `EditProduct.html?id=${id}&productName=${encodeURIComponent(productName)}&price=${encodeURIComponent(price)}&desc=${encodeURIComponent(desc)}&gty=${encodeURIComponent(gty)}`;
+function editProduct(id, productName, price, desc, qty) {
+    window.location.href = `EditProduct.html?id=${id}&productName=${encodeURIComponent(productName)}&price=${encodeURIComponent(price)}&desc=${encodeURIComponent(desc)}&gty=${encodeURIComponent(qty)}`;
 }
 
 //deleteing product using product id which is a primary key.
@@ -104,21 +102,21 @@ async function deleteProduct(id) {
                 const error = await response.json();
                 alert(error.message, error.detail);
                 return;
-            } else {
-                loadTableData();
-                alert("Product is Successfully deleted!")
             }
-
+            reportOutComes("", "Product is Successfully deleted!", "Information");
+            loadTableData();
 
         } catch (error) {
-            console.error(error);
+            reportOutComes(error, "Something went wrong.", "Error");
         }
     }
 }
 
 //This DOM is for Product.html main page for product usecase.
 document.addEventListener("DOMContentLoaded", () => {
+    
     loadTableData();
+    doFilter();
 
     const btn_add = document.getElementById("btn_addProduct");
     const btn_search = document.getElementById("btn_searchProduct");
@@ -134,6 +132,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+function doFilter(){
+    const select = document.getElementById("filter-gropdown");
+    select.addEventListener("change", function (){
+        const value = this.value;
+
+        const group = {
+            available: products.filter(prod => prod.status === "available"),
+            notAvailable: products.filter(prod => prod.status === "not_available")
+        }
+
+        if(value === "all")
+            renderPorducts(products.sort((a,b) => a.productName.localeCompare(b.productName)));
+        else if(value === "avilable")
+            renderPorducts(group.available.sort((a,b) => a.productName.localeCompare(b.productName)));
+        else if(value === "notAvailable")
+            renderPorducts(group.notAvailable.sort((a,b) => a.productName.localeCompare(b.productName)));
+
+    });
+    
+}
+
 //searching product by name that is provide on the search box. All the matching name are putted on the top while other in the bottom.
 function searchFunction(btn_search) {
     btn_search.addEventListener("click", () => {
@@ -141,25 +160,58 @@ function searchFunction(btn_search) {
 
         try {
             if (searchValue === "") {
-                alert("Search name is requied!");
+                reportOutComes("","Search name is requied!","Requied");
                 return;
             }
             if (!searchValue) {
                 renderPorducts(products);
             }
 
-            const matched = products.filter(prod => prod.productName.toLowerCase().includes(searchValue));
+            const matched = products.filter(prod => prod.productName.toLowerCase().startsWith(searchValue));
             const notMatched = products.filter(prod => !prod.productName.toLowerCase().includes(searchValue));
+
+            if(Array.isArray(matched) && matched.length === 0){
+                reportOutComes("","No matching values","Information");
+                document.getElementById("txt_search").value = "";
+                return;
+            }
+
             const newList = [...matched, ...notMatched];
             renderPorducts(newList);
 
             document.getElementById("txt_search").value = "";
-            alert("Note! all matching values will be displayed at the top, otherwise not found.");
+            reportOutComes("", "Find the matching at the top.", "Information.")
 
         } catch (error) {
-            console.error(error);
+            reportOutComes(error, "Something went wrong.","");
         }
     });
+}
+
+function DoCloses() {
+    document.getElementById("close-btn").addEventListener("click", () => {
+        document.getElementById("popup").style.display = "none";
+    });
+
+    window.onclick = function (event) {
+        let popup = document.getElementById("popup");
+        if (event.target === popup) {
+            popup.style.display = "none";
+        }
+    }
+}
+function reportOutComes(error,message,type) {
+    document.getElementById("popup").style.display = "block";
+
+    if(message !== "")
+        document.getElementById("popup-message").innerText = message;
+    if(type !== "")
+        document.getElementById("popup-title").innerText = type;
+
+    if(error !== "")
+        console.error("ERROR ", error);
+
+    DoCloses();
 }
 
 

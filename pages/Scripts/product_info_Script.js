@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // addCategoryToSelect();
     addToSelect("selectorSupplier",`http://localhost:8080/api/suppliers/getAll`);
     addToSelect("selectorCategory",`http://localhost:8080/api/category/getAllCategoryData`);
-    // addToSelect("selectorUser",`http://localhost:8080/api/users/`);
+    addToSelect("selectorUser",`http://localhost:8080/api/users/getAllUsers`);
 
 
     document.getElementById("formProductInfo").addEventListener("submit", (event) => {
@@ -34,71 +34,39 @@ document.addEventListener("DOMContentLoaded", () => {
             move: move,
             category_name: category_name,
             user_name: user_name
-        }
+        };
+        console.log(product_Holder);
+        insertProduct(product_Holder);
 
-        fetch("http://localhost:8080/api/products/save", {
+    });
+
+});
+async function insertProduct(product_Holder) {
+    try {
+        const response = await fetch("http://localhost:8080/api/products/save", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(product_Holder)
-        }).then(response => response.json())
-            .then(result => {
-
-                if (result.ok) {
-                    alert("Product has been saved successfully.");
-                } else {
-                    alert("Something went wrong, please try again.");
-                }
-
-            }).catch(err => console.error(err));
-
-    });
-    // addSuppliersToSelect();
-    
-
-});
-async function addCategoryToSelect() {
-    const spinner = document.getElementById("loadingSpinner");
-    const main = document.getElementById("product-subAdding");
-
-    const select = document.getElementById("selectorCategory");
-
-    try {
-        spinner.style.display = "flex";
-        main.style.display = "none";
-
-        const response = await fetch(`http://localhost:8080/api/category/getAllCategoryData`);
-        const results = await response.json();
-
-        console.log(results);
-
-        // if (!results.ok) {
-        //     alert(results.message);
-        //     console.log(results);
-        //     return;
-        // }
-
-        results.forEach(category =>{
-            const op = document.createElement("option");
-            console.log("Starting to add element for select category.");
-
-            op.value = category.name;
-            op.textContent = category.name;
-
-            select.appendChild(op);
-            console.log("Done adding category elements.");
         });
-        
-    } catch (error) {
-        alert("Something went wrong, please try again later.");
-        console.error("Error: ", error);
 
-        spinner.style.display = "none";
-        main.style.display = "flex";
-    }finally{
-        spinner.style.display = "none";
-        main.style.display = "flex";
+        const result = await response.json();
+
+        if(result === true){
+            reportOutComes("","Product has been saved successfully.", "Information");
+            window.location.href = "products.html";
+        }else{
+            reportOutComes("", result.message, "");
+            // alert(result.message);
+            console.log(result);
+            return;
+        }
+
+        
+
+    } catch (error) {
+        reportOutComes(error, "Something went wrong while saving.","");
     }
 }
 
@@ -109,30 +77,29 @@ async function addToSelect(selectName,api){
         const response = await fetch(api);
         const results = await response.json();
 
-        // if (!results.ok) {
-        //     alert(results.message);
-        //     console.log(results);
-        //     return;
-        // }
+        if (!response.ok) {
+            reportOutComes(results,results.message,"");
+            return;
+        }
 
         results.forEach(data =>{
             const option = document.createElement("option");
 
             if (selectName === "selectorCategory") {
-                option.value = category.name;
-                option.textContent = category.name;
+                option.value = data.name;
+                option.textContent = data.name;
 
                 select.appendChild(option);
-            }
-
-            if (selectName === "selectorSupplier") {
-                option.value = data.supplierID;
+            }else if (selectName === "selectorSupplier") {
+                option.value = data.supplierName;
                 option.textContent = data.supplierName;
-                select.appendChild(option);
-            }
 
-            if(selectName === "selectorUser"){
-                
+                select.appendChild(option);
+            }else if(selectName === "selectorUser"){
+                option.value = data.fullName;
+                option.textContent = data.fullName;
+
+                select.appendChild(option);
             }
             
         });
@@ -164,6 +131,33 @@ async function addUsersToSelect(){
         });
         
     } catch (error) {
+        
         console.error("ERROR ON addUsersToSelect() FUNCTION : ", error);
     }
+}
+
+function DoCloses() {
+    document.getElementById("close-btn").addEventListener("click", () => {
+        document.getElementById("popup").style.display = "none";
+    });
+
+    window.onclick = function (event) {
+        let popup = document.getElementById("popup");
+        if (event.target === popup) {
+            popup.style.display = "none";
+        }
+    }
+}
+function reportOutComes(error,message,type) {
+    document.getElementById("popup").style.display = "block";
+
+    if(message !== "")
+        document.getElementById("popup-message").innerText = message;
+    if(type !== "")
+        document.getElementById("popup-title").innerText = type;
+
+    if(error !== "")
+        console.error("ERROR ", error);
+
+    DoCloses();
 }
